@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function DogGarten() {
+export default function DogBoard() {
   return (
     <main>
       <div>Home</div>
