@@ -18,14 +18,6 @@ export default function Navbar() {
   const { isLoggedIn } = useAppSelector((state) => state.user);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -94,7 +86,9 @@ export default function Navbar() {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={(event: MouseEvent<HTMLElement>) => {
+                setAnchorElNav(event.currentTarget);
+              }}
               color="inherit"
             >
               <MenuIcon />
@@ -112,7 +106,9 @@ export default function Navbar() {
                 horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+              onClose={() => {
+                setAnchorElNav(null);
+              }}
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
