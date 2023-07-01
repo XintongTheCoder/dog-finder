@@ -12,12 +12,12 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateLogin: (state, action: PayloadAction<boolean>) => {
+    updateUserLogin: (state, action: PayloadAction<boolean>) => {
       state.isLoggedIn = action.payload;
     },
   },
 });
 
-export const { updateLogin } = userSlice.actions;
+export const { updateUserLogin } = userSlice.actions;
 
 export default userSlice.reducer;
