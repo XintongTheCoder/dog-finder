@@ -33,14 +33,16 @@ export default function DogBoard(): ReactElement {
   const dispatch = useAppDispatch();
 
   const getSearchQuery = (): string => {
-    let query = '';
-    const breedsQueryArr = dogBoard.selectedBreeds.map((breed) => `breeds=${breed}`);
-    query += breedsQueryArr.join('&');
-    const zipCodeQueryArr = dogBoard.selectedZipCodes.map((zipCode) => `zipCode=${zipCode}`);
-    query += `&${zipCodeQueryArr.join('&')}`;
-    query += `&ageMin=${dogBoard.ageMin}`;
-    query += `&ageMax=${dogBoard.ageMax}`;
-    return query;
+    const querySegments = [];
+    dogBoard.selectedBreeds.forEach((breed) => {
+      querySegments.push(`breeds=${breed}`);
+    });
+    dogBoard.selectedZipCodes.forEach((zipCode) => {
+      querySegments.push(`zipCode=${zipCode}`);
+    });
+    querySegments.push(`ageMin=${dogBoard.ageMin}`);
+    querySegments.push(`ageMax=${dogBoard.ageMax}`);
+    return querySegments.join('&');
   };
 
   useEffect(() => {
