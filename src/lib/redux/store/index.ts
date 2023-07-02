@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import dogReducer from '../slices/dogSlice';
+import dogReducer from '../slices/dogBoardSlice';
 import userReducer from '../slices/userSlice';
 
 const store = configureStore({
   reducer: {
-    dogs: dogReducer,
+    dogBoard: dogReducer,
     user: userReducer,
   },
 });

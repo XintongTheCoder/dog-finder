@@ -17,6 +17,9 @@
     "no-multi-str": "off",
     "no-param-reassign": 0,
     "no-alert": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": ["off", {
+      "html": "ignore"
+    }]
   }
 }
