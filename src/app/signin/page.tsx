@@ -14,6 +14,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { updateUserLogin } from '@/lib/redux/slices/userSlice';
 import { client } from '../common/utils';
 
 function Copyright(props: any) {
@@ -45,6 +47,7 @@ export default function Signin() {
     }
   };
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -94,7 +97,10 @@ export default function Signin() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={() => router.push('/dog-board')}
+              onClick={() => {
+                dispatch(updateUserLogin(true));
+                router.push('/dog-board');
+              }}
             >
               Sign In
             </Button>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, MouseEvent } from 'react';
-import { useAppSelector } from '@/lib/redux/hooks';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -13,10 +13,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { useRouter } from 'next/navigation';
+import { updateUserLogin } from '@/lib/redux/slices/userSlice';
 
 export default function Navbar() {
   const { isLoggedIn } = useAppSelector((state) => state.user);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   return (
     <AppBar position="static">
@@ -68,10 +72,17 @@ export default function Navbar() {
           >
             <Button
               key="signin-out"
-              href={isLoggedIn ? '/' : '/signin'}
               sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={() => {
+                if (isLoggedIn) {
+                  dispatch(updateUserLogin(false));
+                  router.push('/');
+                } else {
+                  router.push('/signin');
+                }
+              }}
             >
-              {isLoggedIn ? 'Sign out' : 'Signin'}
+              {isLoggedIn ? 'Sign out' : 'Sign in'}
             </Button>
           </Box>
 
@@ -113,7 +124,17 @@ export default function Navbar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem key="signin-out" href={isLoggedIn ? '/' : '/signin'}>
+              <MenuItem
+                key="signin-out"
+                onClick={() => {
+                  if (isLoggedIn) {
+                    dispatch(updateUserLogin(false));
+                    router.push('/');
+                  } else {
+                    router.push('/signin');
+                  }
+                }}
+              >
                 <Typography textAlign="center">{isLoggedIn ? 'Sign out' : 'Sign in'}</Typography>
               </MenuItem>
             </Menu>
