@@ -68,7 +68,7 @@ export default function Navbar() {
           >
             <Button
               key="signin-out"
-              href={isLoggedIn ? '/' : '/dog-board'}
+              href={isLoggedIn ? '/' : '/signin'}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
               {isLoggedIn ? 'Sign out' : 'Signin'}
@@ -113,7 +113,7 @@ export default function Navbar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem key="signin-out" href={isLoggedIn ? '/' : 'dog-board'}>
+              <MenuItem key="signin-out" href={isLoggedIn ? '/' : '/signin'}>
                 <Typography textAlign="center">{isLoggedIn ? 'Sign out' : 'Sign in'}</Typography>
               </MenuItem>
             </Menu>
