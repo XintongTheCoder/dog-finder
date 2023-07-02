@@ -22,6 +22,15 @@ export default function Navbar() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  const handleSigninSignout = () => {
+    if (isLoggedIn) {
+      dispatch(updateUserLogin(false));
+      router.push('/');
+    } else {
+      router.push('/signin');
+    }
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -73,14 +82,7 @@ export default function Navbar() {
             <Button
               key="signin-out"
               sx={{ my: 2, color: 'white', display: 'block' }}
-              onClick={() => {
-                if (isLoggedIn) {
-                  dispatch(updateUserLogin(false));
-                  router.push('/');
-                } else {
-                  router.push('/signin');
-                }
-              }}
+              onClick={handleSigninSignout}
             >
               {isLoggedIn ? 'Sign out' : 'Sign in'}
             </Button>
@@ -124,17 +126,7 @@ export default function Navbar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem
-                key="signin-out"
-                onClick={() => {
-                  if (isLoggedIn) {
-                    dispatch(updateUserLogin(false));
-                    router.push('/');
-                  } else {
-                    router.push('/signin');
-                  }
-                }}
-              >
+              <MenuItem key="signin-out" onClick={handleSigninSignout}>
                 <Typography textAlign="center">{isLoggedIn ? 'Sign out' : 'Sign in'}</Typography>
               </MenuItem>
             </Menu>
