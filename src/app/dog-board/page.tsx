@@ -1,43 +1,45 @@
 'use client';
 
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
-import { updateBreeds, updateDogs } from '@/lib/redux/slices/dogBoardSlice';
+import {
+  updateBreeds,
+  updateDogs,
+  updateSelectedBreeds,
+  updateSelectedZipCodes,
+  updateAgeMin,
+  updateAgeMax,
+} from '@/lib/redux/slices/dogBoardSlice';
 import { client } from '../common/utils';
 import Navbar from '../common/navbar';
 import { Dog } from '../common/types';
 import DogCard from './dogCard';
 
+interface DogSearchResp {
+  resultIds: string[];
+}
+
+interface DogsResp {
+  id: string;
+  img: string;
+  name: string;
+  age: number;
+  zip_code: string;
+  breed: string;
+}
+
 export default function DogBoard(): ReactElement {
-  const breeds = useAppSelector((state) => state.dogBoard.breeds);
-  const dogs = useAppSelector((state) => state.dogBoard.dogs);
-  const [selectedBreeds, setSelectedBreeds] = useState<string[]>([]);
-  const [selectedZipCodes, setSelectedZipCodes] = useState<string[]>([]);
-  const [ageMin, setAgeMin] = useState(0);
-  const [ageMax, setAgeMax] = useState(100);
+  const dogBoard = useAppSelector((state) => state.dogBoard);
   const dispatch = useAppDispatch();
-
-  interface DogSearchResp {
-    resultIds: string[];
-  }
-
-  interface DogsResp {
-    id: string;
-    img: string;
-    name: string;
-    age: number;
-    zip_code: string;
-    breed: string;
-  }
 
   const getSearchQuery = (): string => {
     let query = '';
-    const breedsQueryArr = selectedBreeds.map((breed) => `breeds=${breed}`);
+    const breedsQueryArr = dogBoard.selectedBreeds.map((breed) => `breeds=${breed}`);
     query += breedsQueryArr.join('&');
-    const zipCodeQueryArr = selectedZipCodes.map((zipCode) => `zipCode=${zipCode}`);
+    const zipCodeQueryArr = dogBoard.selectedZipCodes.map((zipCode) => `zipCode=${zipCode}`);
     query += `&${zipCodeQueryArr.join('&')}`;
-    query += `&ageMin=${ageMin}`;
-    query += `&ageMax=${ageMax}`;
+    query += `&ageMin=${dogBoard.ageMin}`;
+    query += `&ageMax=${dogBoard.ageMax}`;
     return query;
   };
 
@@ -70,8 +72,8 @@ export default function DogBoard(): ReactElement {
       <Navbar />
       <div>Filters</div>
       <div className="grid-cols-fluid">
-        {dogs.length ? (
-          dogs.map((dog: Dog): ReactElement => <DogCard key={dog.id} dog={dog} />)
+        {dogBoard.dogs.length ? (
+          dogBoard.dogs.map((dog: Dog): ReactElement => <DogCard key={dog.id} dog={dog} />)
         ) : (
           <div>No dogs found</div>
         )}
