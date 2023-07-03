@@ -27,19 +27,19 @@ export default function DogBoard(): ReactElement {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    async function fetchBreeds() {
+    const fetchBreeds = async () => {
       try {
         const breedsResp = await client.get<string[]>('/dogs/breeds');
         dispatch(updateBreeds(breedsResp.data));
       } catch (err) {
         console.error(err);
       }
-    }
+    };
     fetchBreeds();
   }, [dispatch]);
 
   useEffect(() => {
-    async function fetchDogs() {
+    const fetchDogs = async () => {
       try {
         const dogSearchResp = await client.get<DogSearchResp>('/dogs/search', {
           params: {
@@ -60,7 +60,7 @@ export default function DogBoard(): ReactElement {
       } catch (err) {
         console.error(err);
       }
-    }
+    };
     fetchDogs();
   }, [
     dogBoard.selectedBreeds,

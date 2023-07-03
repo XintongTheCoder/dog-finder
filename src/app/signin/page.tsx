@@ -34,6 +34,8 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function Signin() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -42,12 +44,13 @@ export default function Signin() {
         name: data.get('name'),
         email: data.get('email'),
       });
+
+      dispatch(updateUserLogin(true));
+      router.push('/dog-board');
     } catch (err) {
       console.error(err);
     }
   };
-  const router = useRouter();
-  const dispatch = useAppDispatch();
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -92,16 +95,7 @@ export default function Signin() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={() => {
-                dispatch(updateUserLogin(true));
-                router.push('/dog-board');
-              }}
-            >
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>
           </Box>
