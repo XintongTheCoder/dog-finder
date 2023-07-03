@@ -5,6 +5,7 @@ import {
   updateAgeMin,
   updateSelectedBreeds,
   updateSelectedZipCodes,
+  updateSortBy,
 } from '@/lib/redux/slices/dogBoardSlice';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -15,6 +16,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { SortBy } from '../common/types';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -26,6 +28,8 @@ const MenuProps = {
     },
   },
 };
+
+const SORTOPTIONS: SortBy[] = ['breed:asc', 'breed:desc', 'age:asc', 'age:desc'];
 
 export default function Filters() {
   const dogBoard = useAppSelector((state) => state.dogBoard);
@@ -46,9 +50,9 @@ export default function Filters() {
   return (
     <div className="flex flex-row">
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="breeds-filter-input-label">Breeds</InputLabel>
+        <InputLabel id="breeds-filter-label">Breeds</InputLabel>
         <Select
-          labelId="breeds-filter-select-label"
+          labelId="breeds-filter-label"
           id="breeds-filter"
           multiple
           value={dogBoard.selectedBreeds}
@@ -92,7 +96,7 @@ export default function Filters() {
           label="Age Min"
           type="number"
           placeholder="0"
-          inputProps={{ shrink: true, min: 0, max: 100 }}
+          inputProps={{ min: 0, max: 100 }}
           value={dogBoard.ageMin}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             dispatch(updateAgeMin(Math.round(Number(event.target.value))));
@@ -103,12 +107,35 @@ export default function Filters() {
           label="Age Max"
           type="number"
           placeholder="100"
-          inputProps={{ shrink: true, min: 0, max: 100 }}
+          inputProps={{ min: 0, max: 100 }}
           value={dogBoard.ageMax}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             dispatch(updateAgeMax(Math.round(Number(event.target.value))));
           }}
         />
+      </Box>
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl fullWidth>
+          <InputLabel id="sort-by-label">Sort By</InputLabel>
+          <Select
+            labelId="sort-by-label"
+            id="sort-by-filter"
+            value={dogBoard.sortBy}
+            onChange={(event: SelectChangeEvent<SortBy>) => {
+              const {
+                target: { value },
+              } = event;
+              dispatch(updateSortBy(value as SortBy));
+            }}
+          >
+            <MenuItem value={SORTOPTIONS[0]} selected>
+              breed: a-z
+            </MenuItem>
+            <MenuItem value={SORTOPTIONS[1]}>breed: z-a</MenuItem>
+            <MenuItem value={SORTOPTIONS[2]}>age: ↑</MenuItem>
+            <MenuItem value={SORTOPTIONS[3]}>age: ↓</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
     </div>
   );

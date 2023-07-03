@@ -47,6 +47,7 @@ export default function DogBoard(): ReactElement {
             zipCodes: dogBoard.selectedZipCodes,
             ageMin: dogBoard.ageMin,
             ageMax: dogBoard.ageMax,
+            sort: dogBoard.sortBy,
           },
         });
         const dogsResp = await client.post<DogsResp[]>('/dogs', dogSearchResp.data.resultIds);
@@ -67,6 +68,7 @@ export default function DogBoard(): ReactElement {
     dogBoard.selectedZipCodes,
     dogBoard.ageMin,
     dogBoard.ageMax,
+    dogBoard.sortBy,
     dispatch,
   ]);
 
