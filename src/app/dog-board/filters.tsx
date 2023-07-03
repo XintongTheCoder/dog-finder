@@ -96,7 +96,6 @@ export default function Filters() {
           id="age-min-filter"
           label="Age Min"
           type="number"
-          placeholder="0"
           inputProps={{ min: 0, max: 100 }}
           value={dogBoard.ageMin}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +106,6 @@ export default function Filters() {
           id="age-max-filter"
           label="Age Max"
           type="number"
-          placeholder="100"
           inputProps={{ min: 0, max: 100 }}
           value={dogBoard.ageMax}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
