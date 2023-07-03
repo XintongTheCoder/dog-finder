@@ -2,18 +2,12 @@
 
 import { ReactElement, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
-import {
-  updateBreeds,
-  updateDogs,
-  updateSelectedBreeds,
-  updateSelectedZipCodes,
-  updateAgeMin,
-  updateAgeMax,
-} from '@/lib/redux/slices/dogBoardSlice';
+import { updateBreeds, updateDogs } from '@/lib/redux/slices/dogBoardSlice';
 import { client } from '../common/utils';
 import Navbar from '../common/navbar';
 import { Dog } from '../common/types';
 import DogCard from './dogCard';
+import Filters from './filters';
 
 interface DogSearchResp {
   resultIds: string[];
@@ -32,27 +26,28 @@ export default function DogBoard(): ReactElement {
   const dogBoard = useAppSelector((state) => state.dogBoard);
   const dispatch = useAppDispatch();
 
-  const getSearchQuery = (): string => {
-    const querySegments = [];
-    dogBoard.selectedBreeds.forEach((breed) => {
-      querySegments.push(`breeds=${breed}`);
-    });
-    dogBoard.selectedZipCodes.forEach((zipCode) => {
-      querySegments.push(`zipCode=${zipCode}`);
-    });
-    querySegments.push(`ageMin=${dogBoard.ageMin}`);
-    querySegments.push(`ageMax=${dogBoard.ageMax}`);
-    return querySegments.join('&');
-  };
-
   useEffect(() => {
-    async function fetchData() {
+    async function fetchBreeds() {
       try {
         const breedsResp = await client.get<string[]>('/dogs/breeds');
         dispatch(updateBreeds(breedsResp.data));
-        const query = getSearchQuery();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchBreeds();
+  }, [dispatch]);
+
+  useEffect(() => {
+    async function fetchDogs() {
+      try {
         const dogSearchResp = await client.get<DogSearchResp>('/dogs/search', {
-          params: { query },
+          params: {
+            breeds: dogBoard.selectedBreeds,
+            zipCodes: dogBoard.selectedZipCodes,
+            ageMin: dogBoard.ageMin,
+            ageMax: dogBoard.ageMax,
+          },
         });
         const dogsResp = await client.post<DogsResp[]>('/dogs', dogSearchResp.data.resultIds);
         const conformedDogs = dogsResp.data.map((dog) => {
@@ -66,13 +61,19 @@ export default function DogBoard(): ReactElement {
         console.error(err);
       }
     }
-    fetchData();
-  }, []);
+    fetchDogs();
+  }, [
+    dogBoard.selectedBreeds,
+    dogBoard.selectedZipCodes,
+    dogBoard.ageMin,
+    dogBoard.ageMax,
+    dispatch,
+  ]);
 
   return (
     <div>
       <Navbar />
-      <div>Filters</div>
+      <Filters />
       <div className="grid-cols-fluid">
         {dogBoard.dogs.length ? (
           dogBoard.dogs.map((dog: Dog): ReactElement => <DogCard key={dog.id} dog={dog} />)
