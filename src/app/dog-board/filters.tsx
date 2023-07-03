@@ -1,6 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
-import { updateSelectedBreeds, updateSelectedZipCodes } from '@/lib/redux/slices/dogBoardSlice';
+import {
+  updateAgeMax,
+  updateAgeMin,
+  updateSelectedBreeds,
+  updateSelectedZipCodes,
+} from '@/lib/redux/slices/dogBoardSlice';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -73,6 +78,7 @@ export default function Filters() {
       >
         <TextField
           id="zip-codes-filter"
+          label="Zip Codes"
           variant="outlined"
           value={zipCodesInput}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -80,6 +86,28 @@ export default function Filters() {
           }}
           error={hasInvalidZipCode}
           helperText={hasInvalidZipCode ? 'Invalid zip code' : ''}
+        />
+        <TextField
+          id="age-min-filter"
+          label="Age Min"
+          type="number"
+          placeholder="0"
+          inputProps={{ shrink: true, min: 0, max: 100 }}
+          value={dogBoard.ageMin}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            dispatch(updateAgeMin(Math.round(Number(event.target.value))));
+          }}
+        />
+        <TextField
+          id="age-max-filter"
+          label="Age Max"
+          type="number"
+          placeholder="100"
+          inputProps={{ shrink: true, min: 0, max: 100 }}
+          value={dogBoard.ageMax}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            dispatch(updateAgeMax(Math.round(Number(event.target.value))));
+          }}
         />
       </Box>
     </div>
