@@ -19,7 +19,7 @@ module.exports = {
         montserrat: ['var(--font-montserrat'],
       },
       gridTemplateColumns: {
-        fluid: 'repeat(auto-fit, minmax(15rem, 1fr))', // className: grid-cols-fluid
+        fluid: 'repeat(auto-fit, minmax(15rem, 1fr))',
       },
     },
   },

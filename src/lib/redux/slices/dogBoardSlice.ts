@@ -9,6 +9,9 @@ interface DogState {
   ageMin: number;
   ageMax: number;
   sortBy: SortBy;
+  from: number;
+  size: number;
+  totalDogs: number;
 }
 
 const initialState: DogState = {
@@ -19,6 +22,9 @@ const initialState: DogState = {
   ageMin: 0,
   ageMax: 100,
   sortBy: 'breed:asc',
+  from: 0,
+  size: 25,
+  totalDogs: 0,
 };
 
 export const dogBoardSlice = createSlice({
@@ -46,6 +52,15 @@ export const dogBoardSlice = createSlice({
     updateSortBy: (state, action: PayloadAction<SortBy>) => {
       state.sortBy = action.payload;
     },
+    updateFrom: (state, action: PayloadAction<number>) => {
+      state.from = action.payload;
+    },
+    updateSize: (state, action: PayloadAction<number>) => {
+      state.size = action.payload;
+    },
+    updateTotalDogs: (state, action: PayloadAction<number>) => {
+      state.totalDogs = action.payload;
+    },
   },
 });
 
@@ -57,6 +72,9 @@ export const {
   updateAgeMin,
   updateAgeMax,
   updateSortBy,
+  updateFrom,
+  updateSize,
+  updateTotalDogs,
 } = dogBoardSlice.actions;
 
 export default dogBoardSlice.reducer;
