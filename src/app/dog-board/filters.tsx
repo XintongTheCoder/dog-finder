@@ -1,6 +1,12 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
-import { updateSelectedBreeds, updateSelectedZipCodes } from '@/lib/redux/slices/dogBoardSlice';
+import {
+  updateAgeMax,
+  updateAgeMin,
+  updateSelectedBreeds,
+  updateSelectedZipCodes,
+  updateSortBy,
+} from '@/lib/redux/slices/dogBoardSlice';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,6 +16,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { SortBy } from '../common/types';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -21,6 +28,8 @@ const MenuProps = {
     },
   },
 };
+
+const SORTOPTIONS: SortBy[] = ['breed:asc', 'breed:desc', 'age:asc', 'age:desc'];
 
 export default function Filters() {
   const dogBoard = useAppSelector((state) => state.dogBoard);
@@ -40,40 +49,42 @@ export default function Filters() {
 
   return (
     <div className="flex flex-row">
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="breeds-filter-input-label">Breeds</InputLabel>
-        <Select
-          labelId="breeds-filter-select-label"
-          id="breeds-filter"
-          multiple
-          value={dogBoard.selectedBreeds}
-          onChange={(event: SelectChangeEvent<typeof dogBoard.breeds>) => {
-            const {
-              target: { value },
-            } = event;
-            dispatch(updateSelectedBreeds(typeof value === 'string' ? value.split(',') : value));
-          }}
-          input={<OutlinedInput label="Tag" />}
-          renderValue={(selected) => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {dogBoard.breeds.map((breed) => (
-            <MenuItem key={breed} value={breed}>
-              <Checkbox checked={dogBoard.selectedBreeds.indexOf(breed) > -1} />
-              <ListItemText primary={breed} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
       <Box
         component="form"
-        sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
+        sx={{ '& > :not(style)': { m: 1, minWidth: '10ch' } }}
         noValidate
         autoComplete="off"
       >
+        <FormControl sx={{ m: 1, width: 250 }}>
+          <InputLabel id="breeds-filter-label">Breeds</InputLabel>
+          <Select
+            labelId="breeds-filter-label"
+            id="breeds-filter"
+            multiple
+            value={dogBoard.selectedBreeds}
+            onChange={(event: SelectChangeEvent<typeof dogBoard.breeds>) => {
+              const {
+                target: { value },
+              } = event;
+              dispatch(updateSelectedBreeds(typeof value === 'string' ? value.split(',') : value));
+            }}
+            input={<OutlinedInput label="Tag" />}
+            renderValue={(selected) => selected.join(', ')}
+            MenuProps={MenuProps}
+          >
+            {dogBoard.breeds.map((breed) => (
+              <MenuItem key={breed} value={breed}>
+                <Checkbox checked={dogBoard.selectedBreeds.indexOf(breed) > -1} />
+                <ListItemText primary={breed} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           id="zip-codes-filter"
+          label="Zip Codes"
           variant="outlined"
+          placeholder="separated by ,"
           value={zipCodesInput}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             setZipCodesInput(event.target.value);
@@ -81,6 +92,48 @@ export default function Filters() {
           error={hasInvalidZipCode}
           helperText={hasInvalidZipCode ? 'Invalid zip code' : ''}
         />
+        <TextField
+          id="age-min-filter"
+          label="Age Min"
+          type="number"
+          inputProps={{ min: 0, max: 100 }}
+          value={dogBoard.ageMin}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            dispatch(updateAgeMin(Math.round(Number(event.target.value))));
+          }}
+        />
+        <TextField
+          id="age-max-filter"
+          label="Age Max"
+          type="number"
+          inputProps={{ min: 0, max: 100 }}
+          value={dogBoard.ageMax}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            dispatch(updateAgeMax(Math.round(Number(event.target.value))));
+          }}
+        />
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="sort-by-label">Sort By</InputLabel>
+          <Select
+            labelId="sort-by-label"
+            id="sort-by-filter"
+            label="Sort By"
+            value={dogBoard.sortBy}
+            onChange={(event: SelectChangeEvent<SortBy>) => {
+              const {
+                target: { value },
+              } = event;
+              dispatch(updateSortBy(value as SortBy));
+            }}
+          >
+            <MenuItem value={SORTOPTIONS[0]} selected>
+              breed: a-z
+            </MenuItem>
+            <MenuItem value={SORTOPTIONS[1]}>breed: z-a</MenuItem>
+            <MenuItem value={SORTOPTIONS[2]}>age: ↑</MenuItem>
+            <MenuItem value={SORTOPTIONS[3]}>age: ↓</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
     </div>
   );

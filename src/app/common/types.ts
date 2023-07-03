@@ -15,3 +15,5 @@ export interface Location {
   state: string;
   county: string;
 }
+
+export type SortBy = 'breed:asc' | 'breed:desc' | 'age:asc' | 'age:desc';

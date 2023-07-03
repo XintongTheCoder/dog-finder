@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { Dog } from '../../../app/common/types';
+import type { Dog, SortBy } from '../../../app/common/types';
 
 interface DogState {
   breeds: string[];
@@ -8,6 +8,7 @@ interface DogState {
   selectedZipCodes: string[];
   ageMin: number;
   ageMax: number;
+  sortBy: SortBy;
 }
 
 const initialState: DogState = {
@@ -17,6 +18,7 @@ const initialState: DogState = {
   selectedZipCodes: [],
   ageMin: 0,
   ageMax: 100,
+  sortBy: 'breed:asc',
 };
 
 export const dogBoardSlice = createSlice({
@@ -41,6 +43,9 @@ export const dogBoardSlice = createSlice({
     updateAgeMax: (state, action: PayloadAction<number>) => {
       state.ageMax = action.payload;
     },
+    updateSortBy: (state, action: PayloadAction<SortBy>) => {
+      state.sortBy = action.payload;
+    },
   },
 });
 
@@ -51,6 +56,7 @@ export const {
   updateSelectedZipCodes,
   updateAgeMin,
   updateAgeMax,
+  updateSortBy,
 } = dogBoardSlice.actions;
 
 export default dogBoardSlice.reducer;
