@@ -100,6 +100,7 @@ export default function DogBoard(): ReactElement {
         color="primary"
         showFirstButton
         showLastButton
+        page={dogBoard.from / dogBoard.size + 1}
         onChange={(event: ChangeEvent<unknown>, page: number) => {
           dispatch(updateFrom((page - 1) * dogBoard.size));
         }}

@@ -39,18 +39,23 @@ export const dogBoardSlice = createSlice({
     },
     updateSelectedBreeds: (state, action: PayloadAction<string[]>) => {
       state.selectedBreeds = action.payload;
+      state.from = 0;
     },
     updateSelectedZipCodes: (state, action: PayloadAction<string[]>) => {
       state.selectedZipCodes = action.payload;
+      state.from = 0;
     },
     updateAgeMin: (state, action: PayloadAction<number>) => {
       state.ageMin = action.payload;
+      state.from = 0;
     },
     updateAgeMax: (state, action: PayloadAction<number>) => {
       state.ageMax = action.payload;
+      state.from = 0;
     },
     updateSortBy: (state, action: PayloadAction<SortBy>) => {
       state.sortBy = action.payload;
+      state.from = 0;
     },
     updateFrom: (state, action: PayloadAction<number>) => {
       state.from = action.payload;
