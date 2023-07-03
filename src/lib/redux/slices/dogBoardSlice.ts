@@ -4,26 +4,28 @@ import type { Dog, SortBy } from '../../../app/common/types';
 interface DogState {
   breeds: string[];
   dogs: Dog[];
+  isLoading: boolean;
   selectedBreeds: string[];
   selectedZipCodes: string[];
   ageMin: number;
   ageMax: number;
   sortBy: SortBy;
   from: number;
-  size: number;
+  pageSize: number;
   totalDogs: number;
 }
 
 const initialState: DogState = {
   breeds: [],
   dogs: [],
+  isLoading: true,
   selectedBreeds: [],
   selectedZipCodes: [],
   ageMin: 0,
   ageMax: 100,
   sortBy: 'breed:asc',
   from: 0,
-  size: 25,
+  pageSize: 25,
   totalDogs: 0,
 };
 
@@ -36,6 +38,9 @@ export const dogBoardSlice = createSlice({
     },
     updateDogs: (state, action: PayloadAction<Dog[]>) => {
       state.dogs = action.payload;
+    },
+    updateIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
     },
     updateSelectedBreeds: (state, action: PayloadAction<string[]>) => {
       state.selectedBreeds = action.payload;
@@ -60,8 +65,8 @@ export const dogBoardSlice = createSlice({
     updateFrom: (state, action: PayloadAction<number>) => {
       state.from = action.payload;
     },
-    updateSize: (state, action: PayloadAction<number>) => {
-      state.size = action.payload;
+    updatePageSize: (state, action: PayloadAction<number>) => {
+      state.pageSize = action.payload;
     },
     updateTotalDogs: (state, action: PayloadAction<number>) => {
       state.totalDogs = action.payload;
@@ -72,13 +77,14 @@ export const dogBoardSlice = createSlice({
 export const {
   updateBreeds,
   updateDogs,
+  updateIsLoading,
   updateSelectedBreeds,
   updateSelectedZipCodes,
   updateAgeMin,
   updateAgeMax,
   updateSortBy,
   updateFrom,
-  updateSize,
+  updatePageSize,
   updateTotalDogs,
 } = dogBoardSlice.actions;
 

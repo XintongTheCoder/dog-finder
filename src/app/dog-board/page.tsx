@@ -5,10 +5,12 @@ import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import {
   updateBreeds,
   updateDogs,
+  updateIsLoading,
   updateFrom,
   updateTotalDogs,
 } from '@/lib/redux/slices/dogBoardSlice';
 import Pagination from '@mui/material/Pagination';
+import CircularProgress from '@mui/material/CircularProgress';
 import { client } from '../common/utils';
 import Navbar from '../common/navbar';
 import { Dog } from '../common/types';
@@ -48,6 +50,7 @@ export default function DogBoard(): ReactElement {
   useEffect(() => {
     const fetchDogs = async () => {
       try {
+        dispatch(updateIsLoading(true));
         const dogSearchResp = await client.get<DogSearchResp>('/dogs/search', {
           params: {
             breeds: dogBoard.selectedBreeds,
@@ -56,7 +59,7 @@ export default function DogBoard(): ReactElement {
             ageMax: dogBoard.ageMax,
             sort: dogBoard.sortBy,
             from: dogBoard.from,
-            size: dogBoard.size,
+            size: dogBoard.pageSize,
           },
         });
         dispatch(updateTotalDogs(dogSearchResp.data.total));
@@ -68,6 +71,7 @@ export default function DogBoard(): ReactElement {
           return { zipCode: zip_code, ...rest };
         });
         dispatch(updateDogs(conformedDogs));
+        dispatch(updateIsLoading(false));
       } catch (err) {
         console.error(err);
       }
@@ -80,7 +84,7 @@ export default function DogBoard(): ReactElement {
     dogBoard.ageMax,
     dogBoard.sortBy,
     dogBoard.from,
-    dogBoard.size,
+    dogBoard.pageSize,
     dispatch,
   ]);
 
@@ -88,21 +92,25 @@ export default function DogBoard(): ReactElement {
     <div className="flex flex-col">
       <Navbar />
       <Filters />
-      <div className="grid gap-12 grid-cols-fluid">
-        {dogBoard.dogs.length ? (
-          dogBoard.dogs.map((dog: Dog): ReactElement => <DogCard key={dog.id} dog={dog} />)
-        ) : (
-          <div>No dogs found</div>
-        )}
-      </div>
+      {dogBoard.isLoading ? (
+        <CircularProgress />
+      ) : (
+        <div className="grid gap-12 grid-cols-fluid">
+          {dogBoard.dogs.length ? (
+            dogBoard.dogs.map((dog: Dog): ReactElement => <DogCard key={dog.id} dog={dog} />)
+          ) : (
+            <div>No dogs found</div>
+          )}
+        </div>
+      )}
       <Pagination
-        count={Math.ceil(dogBoard.totalDogs / dogBoard.size)}
+        count={Math.ceil(dogBoard.totalDogs / dogBoard.pageSize)}
         color="primary"
         showFirstButton
         showLastButton
-        page={dogBoard.from / dogBoard.size + 1}
+        page={dogBoard.from / dogBoard.pageSize + 1}
         onChange={(event: ChangeEvent<unknown>, page: number) => {
-          dispatch(updateFrom((page - 1) * dogBoard.size));
+          dispatch(updateFrom((page - 1) * dogBoard.pageSize));
         }}
       />
     </div>
