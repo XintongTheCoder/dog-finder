@@ -33,8 +33,8 @@ export default function Filters() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!hasInvalidZipCode && zipCodesInput.length) {
-      dispatch(updateSelectedZipCodes(zipCodesInput.split(/,\s*/g)));
+    if (!hasInvalidZipCode) {
+      dispatch(updateSelectedZipCodes(zipCodesInput.length ? zipCodesInput.split(/,\s*/g) : []));
     }
   }, [zipCodesInput, dispatch, hasInvalidZipCode]);
 
