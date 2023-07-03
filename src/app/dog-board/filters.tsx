@@ -27,11 +27,13 @@ export default function Filters() {
   const [zipCodesInput, setZipCodesInput] = useState('');
   const hasInvalidZipCode = zipCodesInput
     .split(/,\s*/g)
-    .some((zipCode) => zipCode.length > 0 && zipCode.length < 5);
+    .some(
+      (zipCode) => Number.isNaN(Number(zipCode)) || (zipCode.length > 0 && zipCode.length !== 5)
+    );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!hasInvalidZipCode) {
+    if (!hasInvalidZipCode && zipCodesInput.length) {
       dispatch(updateSelectedZipCodes(zipCodesInput.split(/,\s*/g)));
     }
   }, [zipCodesInput, dispatch, hasInvalidZipCode]);
