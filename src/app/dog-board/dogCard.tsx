@@ -8,7 +8,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import { FacebookShareButton, FacebookIcon, PinterestShareButton, PinterestIcon } from 'next-share';
 import { Dog } from '../common/types';
 
 interface Props {
@@ -21,7 +21,7 @@ export default function DogCard({ dog }: Props): ReactElement {
       <CardHeader
         title={dog.name}
         action={
-          <IconButton aria-label="add to favorites">
+          <IconButton aria-label="add to favorites" color="primary">
             <FavoriteIcon />
           </IconButton>
         }
@@ -38,11 +38,14 @@ export default function DogCard({ dog }: Props): ReactElement {
           <ListItemText primary={`zip code: ${dog.zipCode}`} />
         </ListItem>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-      </CardActions>
+      <div className="flex justify-end gap-x-2">
+        <FacebookShareButton url="http://www.facebook.com">
+          <FacebookIcon size={32} round />
+        </FacebookShareButton>
+        <PinterestShareButton url="https://www.pinterest.com/pin/create/button/" media="">
+          <PinterestIcon size={32} round />
+        </PinterestShareButton>
+      </div>
     </Card>
   );
 }
