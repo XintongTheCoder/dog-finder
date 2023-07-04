@@ -40,13 +40,16 @@ export default function Signin() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
-      await client.post('auth/login', {
+      const resp = await client.post('auth/login', {
         name: data.get('name'),
         email: data.get('email'),
       });
-
-      dispatch(updateUserLogin(true));
-      router.push('/dog-board');
+      if (resp.status === 200) {
+        dispatch(updateUserLogin(true));
+        router.push('/dog-board');
+      } else {
+        console.error('Login failed');
+      }
     } catch (err) {
       console.error(err);
     }

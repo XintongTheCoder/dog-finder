@@ -15,6 +15,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { useRouter } from 'next/navigation';
 import { updateUserLogin } from '@/lib/redux/slices/userSlice';
+import { client } from './utils';
 
 export default function Navbar() {
   const { isLoggedIn } = useAppSelector((state) => state.user);
@@ -22,8 +23,9 @@ export default function Navbar() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const handleSigninSignout = () => {
+  const handleSigninSignout = async () => {
     if (isLoggedIn) {
+      await client.post('/auth/logout');
       dispatch(updateUserLogin(false));
       router.push('/');
     } else {
