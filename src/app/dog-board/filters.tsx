@@ -116,7 +116,7 @@ export default function Filters() {
           <InputLabel id="sort-by-label">Sort By</InputLabel>
           <Select
             labelId="sort-by-label"
-            id="sort-by-filter"
+            data-testid="sort-by"
             label="Sort By"
             value={dogBoard.sortBy}
             onChange={(event: SelectChangeEvent<SortBy>) => {
@@ -129,7 +129,9 @@ export default function Filters() {
             <MenuItem value={SORTOPTIONS[0]} selected>
               breed: a-z
             </MenuItem>
-            <MenuItem value={SORTOPTIONS[1]}>breed: z-a</MenuItem>
+            <MenuItem value={SORTOPTIONS[1]} data-testid="breed-desc">
+              breed: z-a
+            </MenuItem>
             <MenuItem value={SORTOPTIONS[2]}>age: ↑</MenuItem>
             <MenuItem value={SORTOPTIONS[3]}>age: ↓</MenuItem>
           </Select>

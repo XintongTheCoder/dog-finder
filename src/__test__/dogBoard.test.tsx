@@ -1,18 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import '@testing-library/jest-dom';
 import {
-  render,
   screen,
   fireEvent,
   getByRole,
-  act,
   waitForElementToBeRemoved,
-  within,
   waitFor,
 } from '@testing-library/react';
-import { Providers } from '@/lib/redux/providers';
 import DogBoard from '@/app/dog-board/page';
-import Signin from '@/app/signin/page';
 import { setup, Mocks, renderWithProviders } from './common';
 import { mockBreeds } from './mockDogsData';
 
@@ -71,6 +66,45 @@ describe('Dog board', () => {
           size: 25,
           sort: 'breed:asc',
           zipCodes: ['25275', '11962'],
+        },
+      })
+    );
+  });
+
+  it('should be able to filter by ages', async () => {
+    const ageMinFilterElement = screen.getByLabelText('Age Min');
+    fireEvent.change(ageMinFilterElement, { target: { value: 2 } });
+    const ageMaxFilterElement = screen.getByLabelText('Age Max');
+    fireEvent.change(ageMaxFilterElement, { target: { value: 3 } });
+    await waitFor(() =>
+      expect(mocks.mockClient.get).toHaveBeenCalledWith('/dogs/search', {
+        params: {
+          ageMax: 3,
+          ageMin: 2,
+          breeds: [],
+          from: 0,
+          size: 25,
+          sort: 'breed:asc',
+          zipCodes: [],
+        },
+      })
+    );
+  });
+
+  it('should be able to sort', async () => {
+    const sortByElement = screen.getByTestId('sort-by');
+    fireEvent.mouseDown(getByRole(sortByElement, 'button'));
+    fireEvent.click(screen.getByTestId('breed-desc'));
+    await waitFor(() =>
+      expect(mocks.mockClient.get).toHaveBeenCalledWith('/dogs/search', {
+        params: {
+          ageMax: 100,
+          ageMin: 0,
+          breeds: [],
+          from: 0,
+          size: 25,
+          sort: 'breed:desc',
+          zipCodes: [],
         },
       })
     );
