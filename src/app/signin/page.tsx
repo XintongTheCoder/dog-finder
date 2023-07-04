@@ -79,9 +79,10 @@ export default function Signin() {
               required
               fullWidth
               name="name"
+              id="name"
+              data-testid="name"
               label="name"
               type="text"
-              id="name"
               autoComplete="name"
             />
             <TextField
@@ -98,7 +99,13 @@ export default function Signin() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button
+              type="submit"
+              name="sign-in-btn"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
               Sign In
             </Button>
           </Box>
