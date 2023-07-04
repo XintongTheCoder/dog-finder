@@ -5,7 +5,9 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 /* Instruments */
-import store from '@/lib/redux/store';
+import { setupStore } from '@/lib/redux/store';
+
+const store = setupStore();
 
 export function Providers(props: React.PropsWithChildren) {
   const { children } = props;

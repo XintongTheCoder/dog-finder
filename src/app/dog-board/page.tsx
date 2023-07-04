@@ -93,7 +93,7 @@ export default function DogBoard(): ReactElement {
       <Navbar />
       <Filters />
       {dogBoard.isLoading ? (
-        <CircularProgress />
+        <CircularProgress data-testid="spinner" />
       ) : (
         <div className="grid gap-12 grid-cols-fluid">
           {dogBoard.dogs.length ? (

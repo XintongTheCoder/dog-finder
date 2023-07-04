@@ -59,7 +59,7 @@ export default function Filters() {
           <InputLabel id="breeds-filter-label">Breeds</InputLabel>
           <Select
             labelId="breeds-filter-label"
-            id="breeds-filter"
+            data-testid="breeds-filter"
             multiple
             value={dogBoard.selectedBreeds}
             onChange={(event: SelectChangeEvent<typeof dogBoard.breeds>) => {
@@ -72,16 +72,16 @@ export default function Filters() {
             renderValue={(selected) => selected.join(', ')}
             MenuProps={MenuProps}
           >
-            {dogBoard.breeds.map((breed) => (
+            {dogBoard.breeds.map((breed, index) => (
               <MenuItem key={breed} value={breed}>
                 <Checkbox checked={dogBoard.selectedBreeds.indexOf(breed) > -1} />
-                <ListItemText primary={breed} />
+                <ListItemText primary={breed} data-testid={`breed-${index}`} />
               </MenuItem>
             ))}
           </Select>
         </FormControl>
         <TextField
-          id="zip-codes-filter"
+          data-testid="zip-codes-filter"
           label="Zip Codes"
           variant="outlined"
           placeholder="separated by ,"
@@ -116,7 +116,7 @@ export default function Filters() {
           <InputLabel id="sort-by-label">Sort By</InputLabel>
           <Select
             labelId="sort-by-label"
-            id="sort-by-filter"
+            data-testid="sort-by"
             label="Sort By"
             value={dogBoard.sortBy}
             onChange={(event: SelectChangeEvent<SortBy>) => {
@@ -129,7 +129,9 @@ export default function Filters() {
             <MenuItem value={SORTOPTIONS[0]} selected>
               breed: a-z
             </MenuItem>
-            <MenuItem value={SORTOPTIONS[1]}>breed: z-a</MenuItem>
+            <MenuItem value={SORTOPTIONS[1]} data-testid="breed-desc">
+              breed: z-a
+            </MenuItem>
             <MenuItem value={SORTOPTIONS[2]}>age: ↑</MenuItem>
             <MenuItem value={SORTOPTIONS[3]}>age: ↓</MenuItem>
           </Select>
