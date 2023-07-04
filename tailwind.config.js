@@ -8,7 +8,7 @@ module.exports = {
   corePlugins: {
     preflight: false,
   },
-  important: 'body > div',
+  important: 'body',
   theme: {
     extend: {
       backgroundImage: {

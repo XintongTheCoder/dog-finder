@@ -89,20 +89,22 @@ export default function DogBoard(): ReactElement {
   ]);
 
   return (
-    <div className="flex flex-col">
+    <div className="h-screen flex flex-col space-y-4">
       <Navbar />
       <Filters />
-      {dogBoard.isLoading ? (
-        <CircularProgress data-testid="spinner" />
-      ) : (
-        <div className="grid gap-12 grid-cols-fluid">
-          {dogBoard.dogs.length ? (
-            dogBoard.dogs.map((dog: Dog): ReactElement => <DogCard key={dog.id} dog={dog} />)
-          ) : (
-            <div>No dogs found</div>
-          )}
-        </div>
-      )}
+      <div className="basis-0 grow shrink overflow-auto p-2">
+        {dogBoard.isLoading ? (
+          <CircularProgress data-testid="spinner" />
+        ) : (
+          <div className="grid gap-12 grid-cols-fluid">
+            {dogBoard.dogs.length ? (
+              dogBoard.dogs.map((dog: Dog): ReactElement => <DogCard key={dog.id} dog={dog} />)
+            ) : (
+              <div>No dogs found</div>
+            )}
+          </div>
+        )}
+      </div>
       <Pagination
         count={Math.ceil(dogBoard.totalDogs / dogBoard.pageSize)}
         color="primary"
