@@ -90,7 +90,7 @@ export default function DogBoard(): ReactElement {
 
   return (
     <div className="flex flex-col">
-      {/* <Navbar /> */}
+      <Navbar />
       <Filters />
       {dogBoard.isLoading ? (
         <CircularProgress data-testid="spinner" />
