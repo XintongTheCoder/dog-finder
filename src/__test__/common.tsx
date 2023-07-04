@@ -1,6 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import React, { ReactElement, PropsWithChildren } from 'react';
 import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
 import { AxiosInstance } from 'axios';
+import type { RenderOptions } from '@testing-library/react';
+import type { PreloadedState } from '@reduxjs/toolkit';
+import { AppStore, RootState, setupStore } from '@/lib/redux/store';
+import { Provider } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { client } from '../app/common/utils';
 import { mockBreeds, mockDogIds, mockDogs } from './mockDogsData';
@@ -49,4 +55,26 @@ export function setup() {
     return Promise.reject(new Error('Mock axios POST failed: invalid url'));
   });
   return { mockClient, mockUseRouter, mockPush };
+}
+
+interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
+  preloadedState?: PreloadedState<RootState>;
+  store?: AppStore;
+}
+
+export function renderWithProviders(
+  ui: ReactElement,
+  {
+    preloadedState = {},
+    // Automatically create a store instance if no store was passed in
+    store = setupStore(preloadedState),
+    ...renderOptions
+  }: ExtendedRenderOptions = {}
+) {
+  function Wrapper({ children }: PropsWithChildren<{}>): React.JSX.Element {
+    return <Provider store={store}>{children}</Provider>;
+  }
+
+  // Return an object with the store and all of RTL's query functions
+  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }

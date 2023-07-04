@@ -13,7 +13,7 @@ import {
 import { Providers } from '@/lib/redux/providers';
 import DogBoard from '@/app/dog-board/page';
 import Signin from '@/app/signin/page';
-import { setup, Mocks } from './common';
+import { setup, Mocks, renderWithProviders } from './common';
 import { mockBreeds } from './mockDogsData';
 
 jest.mock('../app/common/utils');
@@ -24,16 +24,16 @@ let mocks: Mocks;
 describe('Dog board', () => {
   beforeEach(async () => {
     mocks = setup();
-    render(<DogBoard />, { wrapper: Providers });
+    renderWithProviders(<DogBoard />);
     await waitForElementToBeRemoved(() => screen.queryByTestId('spinner'));
   });
 
-  // it('should render breeds dropdown memu correctly', async () => {
-  //   const breedFilterElement = screen.getByTestId('breeds-filter');
-  //   fireEvent.mouseDown(getByRole(breedFilterElement, 'button'));
-  //   const breedListItems = await screen.findAllByTestId(/^breed-[0-9]*$/i);
-  //   expect(breedListItems).toHaveLength(mockBreeds.length);
-  // });
+  it('should render breeds dropdown memu correctly', async () => {
+    const breedFilterElement = screen.getByTestId('breeds-filter');
+    fireEvent.mouseDown(getByRole(breedFilterElement, 'button'));
+    const breedListItems = await screen.findAllByTestId(/^breed-[0-9]*$/i);
+    expect(breedListItems).toHaveLength(mockBreeds.length);
+  });
 
   it('should be able to filter by breeds', async () => {
     const breedFilterElement = screen.getByTestId('breeds-filter');
