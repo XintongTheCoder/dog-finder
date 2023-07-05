@@ -10,9 +10,11 @@ export default function Home() {
       <Navbar />
       <div className="relative overflow-hidden flex-auto">
         <Image src="/landing-img.png" fill priority alt="landing-image" className="object-cover" />
-        <Typography className="absolute top-16 right-12">
-          Saving one dog won't change the world, but it will change the world for that dog.
-        </Typography>
+        <div className="absolute top-8 right-8">
+          <Typography className="text-right text-2xl font-mono tracking-tighter font-semibold text-slate-100">
+            Saving one dog won't change the world, but it will change the world for that dog.
+          </Typography>
+        </div>
       </div>
     </main>
   );

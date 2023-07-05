@@ -34,12 +34,12 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="static" role="heading">
+    <AppBar position="static" role="heading" color="primary">
       <Container maxWidth={false}>
         <Toolbar disableGutters>
-          <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} fontSize="large" />
           <Typography
-            variant="h6"
+            variant="h4"
             noWrap
             component="a"
             href="/"
@@ -83,6 +83,8 @@ export default function Navbar() {
           >
             <Button
               key="sign-in-out"
+              size="large"
+              variant="outlined"
               sx={{ my: 2, color: 'white', display: 'block' }}
               onClick={handleSigninSignout}
             >
