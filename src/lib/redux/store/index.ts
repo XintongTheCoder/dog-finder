@@ -1,10 +1,12 @@
 import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 import dogReducer from '../slices/dogBoardSlice';
 import userReducer from '../slices/userSlice';
+import themeReducer from '../slices/themeSlice';
 
 const rootReducer = combineReducers({
   dogBoard: dogReducer,
   user: userReducer,
+  theme: themeReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

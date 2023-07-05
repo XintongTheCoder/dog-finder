@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/globals.css';
 import { Inter } from 'next/font/google';
 import { Providers } from '@/lib/redux/providers';
+import ThemeWrapper from './themeWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,10 +13,12 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Providers>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
-      </html>
-    </Providers>
+    <ThemeWrapper>
+      <Providers>
+        <html lang="en">
+          <body className={inter.className}>{children}</body>
+        </html>
+      </Providers>
+    </ThemeWrapper>
   );
 }
