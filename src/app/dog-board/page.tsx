@@ -22,12 +22,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import CardMedia from '@mui/material/CardMedia';
-import CardHeader from '@mui/material/CardHeader';
 import { shallowEqual } from 'react-redux';
 import PostDogDialog from './postDogDialog';
 
@@ -148,26 +142,30 @@ export default function DogBoard(): ReactElement {
   return (
     <div className="h-screen flex flex-col space-y-4">
       <Navbar setPostDialogOpen={setPostDialogOpen} />
-      <Filters />
-      <Button
-        variant="outlined"
-        onClick={async () => {
-          const dogMatchResp = await client.post<DogMatchResp>(
-            '/dogs/match',
-            dogBoard.favoriteDogIds
-          );
+      <div className="flex justify-between items-center m-2">
+        <Filters />
+        <Button
+          variant="outlined"
+          size="large"
+          disabled={!dogBoard.favoriteDogIds.length}
+          onClick={async () => {
+            const dogMatchResp = await client.post<DogMatchResp>(
+              '/dogs/match',
+              dogBoard.favoriteDogIds
+            );
 
-          if (dogMatchResp.status === 200) {
-            const dogsResp = await client.post('/dogs', [dogMatchResp.data.match]);
-            setMatchedDog(dogsResp.data[0]);
-            setMatchDialogOpen(true);
-          } else {
-            throw new Error('Something went wrong');
-          }
-        }}
-      >
-        Find a match
-      </Button>
+            if (dogMatchResp.status === 200) {
+              const dogsResp = await client.post('/dogs', [dogMatchResp.data.match]);
+              setMatchedDog({ ...dogsResp.data[0], zipCode: dogsResp.data[0].zip_code });
+              setMatchDialogOpen(true);
+            } else {
+              throw new Error('Something went wrong');
+            }
+          }}
+        >
+          Find a match
+        </Button>
+      </div>
       {postDialogOpen && (
         <PostDogDialog postDialogOpen={postDialogOpen} setPostDialogOpen={setPostDialogOpen} />
       )}
@@ -179,25 +177,11 @@ export default function DogBoard(): ReactElement {
       >
         <DialogTitle id="dog-match-dialog-title">Your match is</DialogTitle>
         <DialogContent>
-          <Card sx={{ maxWidth: 345 }}>
-            <CardHeader title={matchedDog.name} />
-            <CardMedia component="img" height="194" image={matchedDog.img} alt="dog image" />
-            <CardContent>
-              <ListItem key="breed" component="div">
-                <ListItemText primary={`breed: ${matchedDog.breed}`} />
-              </ListItem>
-              <ListItem key="age" component="div">
-                <ListItemText primary={`age: ${matchedDog.age}`} />
-              </ListItem>
-              <ListItem key="zip" component="div">
-                <ListItemText primary={`zip code: ${matchedDog.zipCode}`} />
-              </ListItem>
-            </CardContent>
-          </Card>
+          <DogCard dog={{ ...matchedDog, favorite: true }} isDialog={true} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose}>Repick</Button>
-          <Button onClick={handleDialogClose} autoFocus>
+          <Button onClick={() => alert('API is WIP, stay tuned...')} autoFocus>
             Take him/her home
           </Button>
         </DialogActions>
@@ -208,7 +192,7 @@ export default function DogBoard(): ReactElement {
         ) : (
           <div className="grid gap-12 grid-cols-fluid">
             {dogs.length ? (
-              dogs.map((dog): ReactElement => <DogCard key={dog.id} dog={dog} />)
+              dogs.map((dog): ReactElement => <DogCard key={dog.id} dog={dog} isDialog={false} />)
             ) : (
               <div>No dogs found</div>
             )}

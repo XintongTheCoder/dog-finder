@@ -148,7 +148,7 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={() => alert('API is WIP')} disabled={!isFormDataValid()}>
+          <Button onClick={() => alert('API is WIP, stay tuned...')} disabled={!isFormDataValid()}>
             Post
           </Button>
         </DialogActions>
