@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, ReactElement } from 'react';
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -17,7 +17,11 @@ import { useRouter } from 'next/navigation';
 import { updateUserLogin } from '@/lib/redux/slices/userSlice';
 import { client } from './utils';
 
-export default function Navbar() {
+interface Props {
+  setPostDialogOpen(open: boolean): any;
+}
+
+export default function Navbar({ setPostDialogOpen }: Props): ReactElement {
   const { isLoggedIn } = useAppSelector((state) => state.user);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const router = useRouter();
@@ -31,6 +35,10 @@ export default function Navbar() {
     } else {
       router.push('/sign-in');
     }
+  };
+
+  const handlePost = () => {
+    setPostDialogOpen(true);
   };
 
   return (
@@ -81,6 +89,17 @@ export default function Navbar() {
             justifyContent="right"
             alignItems="center"
           >
+            {isLoggedIn && (
+              <Button
+                key="shelter-owner"
+                size="large"
+                variant="outlined"
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                onClick={handlePost}
+              >
+                I'm a shelter owner
+              </Button>
+            )}
             <Button
               key="sign-in-out"
               size="large"
@@ -130,6 +149,11 @@ export default function Navbar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
+              {isLoggedIn && (
+                <MenuItem key="shelter-owner" onClick={handlePost}>
+                  <Typography textAlign="center">I'm a shelter owner</Typography>
+                </MenuItem>
+              )}
               <MenuItem key="sign-in-out" onClick={handleSigninSignout}>
                 <Typography textAlign="center">{isLoggedIn ? 'Sign out' : 'Sign in'}</Typography>
               </MenuItem>
