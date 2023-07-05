@@ -8,19 +8,28 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { FacebookShareButton, FacebookIcon, PinterestShareButton, PinterestIcon } from 'next-share';
-import { Dog } from '../common/types';
+import { Dog, HasFavourite } from '../common/types';
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { toggleFavoriteDog } from '@/lib/redux/slices/dogBoardSlice';
 
 interface Props {
-  dog: Dog;
+  dog: Dog & HasFavourite;
 }
 
 export default function DogCard({ dog }: Props): ReactElement {
+  const dispatch = useAppDispatch();
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         title={dog.name}
         action={
-          <IconButton aria-label="add to favorites" color="primary">
+          <IconButton
+            aria-label="add to favorites"
+            color={dog.favorite ? 'primary' : 'default'}
+            onClick={() => {
+              dispatch(toggleFavoriteDog(dog.id));
+            }}
+          >
             <FavoriteIcon />
           </IconButton>
         }
