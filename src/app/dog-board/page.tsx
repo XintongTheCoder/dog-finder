@@ -19,11 +19,14 @@ import DogCard from './dogCard';
 import Filters from './filters';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import PetsIcon from '@mui/icons-material/Pets';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { shallowEqual } from 'react-redux';
 import PostDogDialog from './postDogDialog';
+import { updateUserLogin } from '@/lib/redux/slices/userSlice';
+import Typography from '@mui/material/Typography';
 
 interface DogSearchResp {
   resultIds: string[];
@@ -131,11 +134,23 @@ export default function DogBoard(): ReactElement {
 
   useEffect(() => {
     if (!user.isLoggedIn) {
-      router.push('/');
+      const validateAuth = async () => {
+        try {
+          const breedsResp = await client.get<string[]>('/dogs/breeds');
+          if (breedsResp.status === 200) {
+            dispatch(updateUserLogin(true));
+          } else {
+            router.push('/');
+          }
+        } catch (err) {
+          router.push('/');
+        }
+      };
+      validateAuth();
     }
   }, [router, user.isLoggedIn]);
 
-  const handleDialogClose = () => {
+  const handleMatchDialogClose = () => {
     setMatchDialogOpen(false);
   };
 
@@ -146,8 +161,8 @@ export default function DogBoard(): ReactElement {
         <Filters />
         <Button
           variant="outlined"
-          size="large"
           disabled={!dogBoard.favoriteDogIds.length}
+          sx={{ fontSize: { xs: 10, md: 16 } }}
           onClick={async () => {
             const dogMatchResp = await client.post<DogMatchResp>(
               '/dogs/match',
@@ -171,16 +186,35 @@ export default function DogBoard(): ReactElement {
       )}
       <Dialog
         open={matchDialogOpen}
-        onClose={handleDialogClose}
+        onClose={handleMatchDialogClose}
+        fullWidth
+        maxWidth="xs"
         aria-labelledby="dog-match-dialog-title"
         aria-describedby="dog-match-dialog-description"
       >
-        <DialogTitle id="dog-match-dialog-title">Your match is</DialogTitle>
-        <DialogContent>
+        <DialogTitle id="dog-match-dialog-title" className="flex items-center">
+          <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} fontSize="medium" />
+          <Typography
+            variant="h4"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              fontFamily: 'monospace',
+              fontWeight: 600,
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Your match is
+          </Typography>
+        </DialogTitle>
+        <DialogContent sx={{ mx: 8 }}>
           <DogCard dog={{ ...matchedDog, favorite: true }} isDialog={true} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose}>Repick</Button>
+          <Button onClick={handleMatchDialogClose}>Repick</Button>
           <Button onClick={() => alert('API is WIP, stay tuned...')} autoFocus>
             Take him/her home
           </Button>
@@ -190,7 +224,7 @@ export default function DogBoard(): ReactElement {
         {dogBoard.isLoading ? (
           <CircularProgress data-testid="spinner" />
         ) : (
-          <div className="grid gap-12 grid-cols-fluid">
+          <div className="grid gap-8 grid-cols-fluid">
             {dogs.length ? (
               dogs.map((dog): ReactElement => <DogCard key={dog.id} dog={dog} isDialog={false} />)
             ) : (

@@ -18,7 +18,7 @@ import { updateUserLogin } from '@/lib/redux/slices/userSlice';
 import { client } from './utils';
 
 interface Props {
-  setPostDialogOpen(open: boolean): any;
+  setPostDialogOpen?: (open: boolean) => void;
 }
 
 export default function Navbar({ setPostDialogOpen }: Props): ReactElement {
@@ -38,7 +38,7 @@ export default function Navbar({ setPostDialogOpen }: Props): ReactElement {
   };
 
   const handlePost = () => {
-    setPostDialogOpen(true);
+    setPostDialogOpen && setPostDialogOpen(true);
   };
 
   return (

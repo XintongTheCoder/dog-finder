@@ -8,8 +8,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 import { useAppSelector } from '@/lib/redux/hooks';
-import { Input, MenuItem, SelectChangeEvent } from '@mui/material';
-import { PresentToAll } from '@mui/icons-material';
+import { FormControl, MenuItem } from '@mui/material';
 
 interface Props {
   postDialogOpen: boolean;
@@ -56,10 +55,8 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 600,
-              letterSpacing: 0,
               color: 'inherit',
               textDecoration: 'none',
             }}
@@ -68,83 +65,88 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={dogForm.name}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              handleDogFormChange('name', { name: event.target.value });
-            }}
-            required
-          />
-          <TextField
-            margin="dense"
-            select
-            id="breed"
-            label="Breed"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={dogForm.breed}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              handleDogFormChange('breed', { breed: event.target.value });
-            }}
-            required
-          >
-            {breeds.map((breed) => (
-              <MenuItem key={breed} value={breed}>
-                {breed}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            margin="dense"
-            id="age"
-            label="Age"
-            type="number"
-            inputProps={{ min: 0, max: 100 }}
-            fullWidth
-            variant="standard"
-            autoComplete="on"
-            value={dogForm.age}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              handleDogFormChange('age', { age: Number(event.target.value) });
-            }}
-            required
-          />
-          <TextField
-            margin="dense"
-            id="image"
-            label="Image"
-            type="url"
-            fullWidth
-            variant="standard"
-            value={dogForm.img}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              handleDogFormChange('img', { img: event.target.value });
-            }}
-            required
-          />
-          <TextField
-            margin="dense"
-            id="zip-code"
-            label="Zip Code"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={dogForm.zipCode}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              handleDogFormChange('zipCode', { zipCode: event.target.value });
-            }}
-            error={!!dogForm.zipCode && !isZipCodeValid}
-            helperText={!dogForm.zipCode || isZipCodeValid ? '' : 'Please enter valid zip code'}
-            required
-          />
+          <FormControl>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Name"
+              type="text"
+              fullWidth
+              autoComplete="off"
+              variant="standard"
+              value={dogForm.name}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                handleDogFormChange('name', { name: event.target.value });
+              }}
+              required
+            />
+            <TextField
+              margin="dense"
+              select
+              id="breed"
+              label="Breed"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={dogForm.breed}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                handleDogFormChange('breed', { breed: event.target.value });
+              }}
+              required
+            >
+              {breeds.map((breed) => (
+                <MenuItem key={breed} value={breed}>
+                  {breed}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              margin="dense"
+              id="age"
+              label="Age"
+              type="number"
+              inputProps={{ min: 0, max: 100 }}
+              fullWidth
+              variant="standard"
+              autoComplete="on"
+              value={dogForm.age}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                handleDogFormChange('age', { age: Number(event.target.value) });
+              }}
+              required
+            />
+            <TextField
+              margin="dense"
+              id="image"
+              label="Image"
+              type="url"
+              fullWidth
+              autoComplete="off"
+              variant="standard"
+              value={dogForm.img}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                handleDogFormChange('img', { img: event.target.value });
+              }}
+              required
+            />
+            <TextField
+              margin="dense"
+              id="zip-code"
+              label="Zip Code"
+              type="text"
+              fullWidth
+              autoComplete="off"
+              variant="standard"
+              value={dogForm.zipCode}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                handleDogFormChange('zipCode', { zipCode: event.target.value });
+              }}
+              error={!!dogForm.zipCode && !isZipCodeValid}
+              helperText={!dogForm.zipCode || isZipCodeValid ? '' : 'Please enter valid zip code'}
+              required
+            />
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

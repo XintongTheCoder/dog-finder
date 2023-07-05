@@ -19,12 +19,9 @@ interface Props {
 
 export default function DogCard({ dog, isDialog }: Props): ReactElement {
   const dispatch = useAppDispatch();
-  if (isDialog) {
-    console.log('@@@', dog.zipCode);
-  }
 
   return (
-    <Card sx={{ maxWidth: 345, maxHeight: 450 }}>
+    <Card sx={{ maxWidth: 280, maxHeight: 450, mx: { xs: 12, sm: 0, md: 0 } }}>
       <CardHeader
         title={dog.name}
         action={
