@@ -156,8 +156,8 @@ export default function DogBoard(): ReactElement {
           );
 
           if (dogMatchResp.status === 200) {
-            const matchedDog = dogBoard.dogs.find((dog) => dog.id === dogMatchResp.data.match)!;
-            setMatchedDog(matchedDog);
+            const dogsResp = await client.post('/dogs', [dogMatchResp.data.match]);
+            setMatchedDog(dogsResp.data[0]);
             setDialogOpen(true);
           } else {
             throw new Error('Something went wrong');
