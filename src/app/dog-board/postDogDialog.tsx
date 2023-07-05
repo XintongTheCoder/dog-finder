@@ -61,11 +61,11 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
               textDecoration: 'none',
             }}
           >
-            POST A DOG FOR MY SHELTER
+            POST A DOG FROM MY SHELTER
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <FormControl>
+          <FormControl fullWidth>
             <TextField
               autoFocus
               margin="dense"
