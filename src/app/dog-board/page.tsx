@@ -11,6 +11,7 @@ import {
 } from '@/lib/redux/slices/dogBoardSlice';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useRouter } from 'next/navigation';
 import { client } from '../common/utils';
 import Navbar from '../common/navbar';
 import { Dog } from '../common/types';
@@ -33,7 +34,9 @@ interface DogsResp {
 
 export default function DogBoard(): ReactElement {
   const dogBoard = useAppSelector((state) => state.dogBoard);
+  const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchBreeds = async () => {
@@ -41,7 +44,7 @@ export default function DogBoard(): ReactElement {
         const breedsResp = await client.get<string[]>('/dogs/breeds');
         dispatch(updateBreeds(breedsResp.data));
       } catch (err) {
-        console.error(err);
+        throw new Error('Something went wrong');
       }
     };
     fetchBreeds();
@@ -73,7 +76,7 @@ export default function DogBoard(): ReactElement {
         dispatch(updateDogs(conformedDogs));
         dispatch(updateIsLoading(false));
       } catch (err) {
-        console.error(err);
+        throw new Error('Something went wrong');
       }
     };
     fetchDogs();
@@ -87,6 +90,12 @@ export default function DogBoard(): ReactElement {
     dogBoard.pageSize,
     dispatch,
   ]);
+
+  useEffect(() => {
+    if (!user.isLoggedIn) {
+      router.push('/');
+    }
+  }, [router, user.isLoggedIn]);
 
   return (
     <div className="h-screen flex flex-col space-y-4">

@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-
 export default function Error({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -10,7 +8,6 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
         <button type="reset" onClick={() => reset()}>
           Try again
         </button>
-        <Link href={'/'}>Go back home </Link>
       </div>
     </div>
   );

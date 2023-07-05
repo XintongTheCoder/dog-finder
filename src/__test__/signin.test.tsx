@@ -2,7 +2,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Providers } from '@/lib/redux/providers';
-import Signin from '@/app/signin/page';
+import SignIn from '@/app/sign-in/page';
 import { setup, Mocks } from './common';
 
 jest.mock('../app/common/utils');
@@ -13,7 +13,7 @@ let mocks: Mocks;
 describe('Sign in page', () => {
   beforeEach(() => {
     mocks = setup();
-    render(<Signin />, { wrapper: Providers });
+    render(<SignIn />, { wrapper: Providers });
   });
 
   it('should allow user to sign in', async () => {

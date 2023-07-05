@@ -1,5 +1,5 @@
 {
-  "extends": ["next/core-web-vitals", "airbnb", "prettier"],
+  "extends": ["next/core-web-vitals", "airbnb", "prettier",  "prettier/react"],
   "plugins": ["prettier"],
   "env": {
     "browser": true,

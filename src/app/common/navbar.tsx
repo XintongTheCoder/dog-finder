@@ -29,7 +29,7 @@ export default function Navbar() {
       dispatch(updateUserLogin(false));
       router.push('/');
     } else {
-      router.push('/signin');
+      router.push('/sign-in');
     }
   };
 
@@ -82,7 +82,7 @@ export default function Navbar() {
             alignItems="center"
           >
             <Button
-              key="signin-out"
+              key="sign-in-out"
               sx={{ my: 2, color: 'white', display: 'block' }}
               onClick={handleSigninSignout}
             >
@@ -128,7 +128,7 @@ export default function Navbar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem key="signin-out" onClick={handleSigninSignout}>
+              <MenuItem key="sign-in-out" onClick={handleSigninSignout}>
                 <Typography textAlign="center">{isLoggedIn ? 'Sign out' : 'Sign in'}</Typography>
               </MenuItem>
             </Menu>

@@ -33,7 +33,7 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Signin() {
+export default function SignIn() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
