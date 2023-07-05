@@ -13,6 +13,7 @@ interface DogState {
   from: number;
   pageSize: number;
   totalDogs: number;
+  favoriteDogIds: string[];
 }
 
 const initialState: DogState = {
@@ -27,6 +28,7 @@ const initialState: DogState = {
   from: 0,
   pageSize: 25,
   totalDogs: 0,
+  favoriteDogIds: [],
 };
 
 export const dogBoardSlice = createSlice({
@@ -71,6 +73,9 @@ export const dogBoardSlice = createSlice({
     updateTotalDogs: (state, action: PayloadAction<number>) => {
       state.totalDogs = action.payload;
     },
+    updateFavoriteDogIds: (state, action: PayloadAction<string[]>) => {
+      state.favoriteDogIds = action.payload;
+    },
   },
 });
 
@@ -86,6 +91,7 @@ export const {
   updateFrom,
   updatePageSize,
   updateTotalDogs,
+  updateFavoriteDogIds,
 } = dogBoardSlice.actions;
 
 export default dogBoardSlice.reducer;
