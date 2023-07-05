@@ -142,7 +142,7 @@ export default function DogBoard(): ReactElement {
   return (
     <div className="h-screen flex flex-col space-y-4">
       <Navbar setPostDialogOpen={setPostDialogOpen} />
-      <div className="flex justify-between items-center m-2">
+      <div className="flex justify-between items-center ml-1 mr-2">
         <Filters />
         <Button
           variant="outlined"
@@ -186,7 +186,7 @@ export default function DogBoard(): ReactElement {
           </Button>
         </DialogActions>
       </Dialog>
-      <div className="basis-0 grow shrink overflow-auto p-2">
+      <div className="basis-0 grow shrink overflow-auto p-3">
         {dogBoard.isLoading ? (
           <CircularProgress data-testid="spinner" />
         ) : (
@@ -204,6 +204,7 @@ export default function DogBoard(): ReactElement {
         color="primary"
         showFirstButton
         showLastButton
+        sx={{ p: 2 }}
         page={dogBoard.from / dogBoard.pageSize + 1}
         onChange={(event: ChangeEvent<unknown>, page: number) => {
           dispatch(updateFrom((page - 1) * dogBoard.pageSize));

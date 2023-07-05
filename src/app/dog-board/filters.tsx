@@ -55,7 +55,7 @@ export default function Filters() {
         noValidate
         autoComplete="off"
       >
-        <FormControl sx={{ m: 1, width: 250 }}>
+        <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="breeds-filter-label">Breeds</InputLabel>
           <Select
             labelId="breeds-filter-label"

@@ -24,7 +24,7 @@ export default function DogCard({ dog, isDialog }: Props): ReactElement {
   }
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, maxHeight: 450 }}>
       <CardHeader
         title={dog.name}
         action={
@@ -42,7 +42,7 @@ export default function DogCard({ dog, isDialog }: Props): ReactElement {
         }
       />
       <CardMedia component="img" height="194" image={dog.img} alt="dog image" />
-      <CardContent>
+      <CardContent sx={{ padding: 0 }}>
         <ListItem key="breed" component="div">
           <ListItemText primary={`breed: ${dog.breed}`} />
         </ListItem>
@@ -54,7 +54,7 @@ export default function DogCard({ dog, isDialog }: Props): ReactElement {
         </ListItem>
       </CardContent>
       {!isDialog && (
-        <div className="flex justify-end gap-x-2">
+        <div className="flex justify-end gap-x-1 mr-2">
           <FacebookShareButton url="http://www.facebook.com">
             <FacebookIcon size={32} round />
           </FacebookShareButton>
