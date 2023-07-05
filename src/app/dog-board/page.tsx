@@ -29,6 +29,7 @@ import ListItemText from '@mui/material/ListItemText';
 import CardMedia from '@mui/material/CardMedia';
 import CardHeader from '@mui/material/CardHeader';
 import { shallowEqual } from 'react-redux';
+import PostDogDialog from './postDogDialog';
 
 interface DogSearchResp {
   resultIds: string[];
@@ -78,7 +79,8 @@ export default function DogBoard(): ReactElement {
   });
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [matchDialogOpen, setMatchDialogOpen] = useState(false);
+  const [postDialogOpen, setPostDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchBreeds = async () => {
@@ -140,12 +142,12 @@ export default function DogBoard(): ReactElement {
   }, [router, user.isLoggedIn]);
 
   const handleDialogClose = () => {
-    setDialogOpen(false);
+    setMatchDialogOpen(false);
   };
 
   return (
     <div className="h-screen flex flex-col space-y-4">
-      <Navbar />
+      <Navbar setPostDialogOpen={setPostDialogOpen} />
       <Filters />
       <Button
         variant="outlined"
@@ -158,7 +160,7 @@ export default function DogBoard(): ReactElement {
           if (dogMatchResp.status === 200) {
             const dogsResp = await client.post('/dogs', [dogMatchResp.data.match]);
             setMatchedDog(dogsResp.data[0]);
-            setDialogOpen(true);
+            setMatchDialogOpen(true);
           } else {
             throw new Error('Something went wrong');
           }
@@ -166,8 +168,11 @@ export default function DogBoard(): ReactElement {
       >
         Find a match
       </Button>
+      {postDialogOpen && (
+        <PostDogDialog postDialogOpen={postDialogOpen} setPostDialogOpen={setPostDialogOpen} />
+      )}
       <Dialog
-        open={dialogOpen}
+        open={matchDialogOpen}
         onClose={handleDialogClose}
         aria-labelledby="dog-match-dialog-title"
         aria-describedby="dog-match-dialog-description"
