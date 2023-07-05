@@ -22,10 +22,10 @@ describe('Navbar', () => {
     expect(screen.getAllByText('Dog Finder')[0]).toBeInTheDocument();
   });
 
-  it('should render signin correctly', () => {
+  it('should render sign-in correctly', () => {
     expect(screen.getAllByText('Sign in')[0]).toBeInTheDocument();
     expect(screen.queryByText('Sign up')).not.toBeInTheDocument();
     fireEvent.click(screen.getAllByText('Sign in')[0]);
-    expect(mocks.mockPush).toHaveBeenCalledWith('/signin');
+    expect(mocks.mockPush).toHaveBeenCalledWith('/sign-in');
   });
 });

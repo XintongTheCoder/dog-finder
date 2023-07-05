@@ -44,7 +44,7 @@ export default function DogBoard(): ReactElement {
         const breedsResp = await client.get<string[]>('/dogs/breeds');
         dispatch(updateBreeds(breedsResp.data));
       } catch (err) {
-        console.error(err);
+        throw new Error('Something went wrong');
       }
     };
     fetchBreeds();
@@ -76,7 +76,7 @@ export default function DogBoard(): ReactElement {
         dispatch(updateDogs(conformedDogs));
         dispatch(updateIsLoading(false));
       } catch (err) {
-        console.error(err);
+        throw new Error('Something went wrong');
       }
     };
     fetchDogs();
