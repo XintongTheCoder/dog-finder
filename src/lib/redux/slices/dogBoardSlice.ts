@@ -73,8 +73,14 @@ export const dogBoardSlice = createSlice({
     updateTotalDogs: (state, action: PayloadAction<number>) => {
       state.totalDogs = action.payload;
     },
-    updateFavoriteDogIds: (state, action: PayloadAction<string[]>) => {
-      state.favoriteDogIds = action.payload;
+    toggleFavoriteDog: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+      const index = state.favoriteDogIds.indexOf(id);
+      if (index >= 0) {
+        state.favoriteDogIds.splice(index, 1);
+      } else {
+        state.favoriteDogIds.push(id);
+      }
     },
   },
 });
@@ -91,7 +97,7 @@ export const {
   updateFrom,
   updatePageSize,
   updateTotalDogs,
-  updateFavoriteDogIds,
+  toggleFavoriteDog,
 } = dogBoardSlice.actions;
 
 export default dogBoardSlice.reducer;

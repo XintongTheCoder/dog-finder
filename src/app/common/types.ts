@@ -7,6 +7,10 @@ export interface Dog {
   breed: string;
 }
 
+export interface HasFavourite {
+  favorite: boolean;
+}
+
 export interface Location {
   zipCode: string;
   latitude: number;
