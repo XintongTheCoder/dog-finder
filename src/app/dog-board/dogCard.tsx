@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { FacebookShareButton, FacebookIcon, PinterestShareButton, PinterestIcon } from 'next-share';
 import { Dog, HasFavourite } from '../common/types';
-import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { useAppDispatch } from '@/lib/redux/hooks';
 import { toggleFavoriteDog } from '@/lib/redux/slices/dogBoardSlice';
 
 interface Props {

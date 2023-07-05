@@ -21,7 +21,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -57,12 +56,12 @@ export default function DogBoard(): ReactElement {
       const favouriteSet = new Set<string>(state.dogBoard.favoriteDogIds);
       return state.dogBoard.dogs.map((dog) => ({ favorite: favouriteSet.has(dog.id), ...dog }));
     },
-    (left, right) => {
-      if (left.length !== right.length) {
+    (selected1, selected2) => {
+      if (selected1.length !== selected2.length) {
         return false;
       }
-      for (let i = 0; i < left.length; i++) {
-        if (!shallowEqual(left[i], right[i])) {
+      for (let i = 0; i < selected1.length; i++) {
+        if (!shallowEqual(selected1[i], selected2[i])) {
           return false;
         }
       }
@@ -175,10 +174,6 @@ export default function DogBoard(): ReactElement {
       >
         <DialogTitle id="dog-match-dialog-title">Your match is</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText id="dog-match-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
-          </DialogContentText> */}
           <Card sx={{ maxWidth: 345 }}>
             <CardHeader title={matchedDog.name} />
             <CardMedia component="img" height="194" image={matchedDog.img} alt="dog image" />
