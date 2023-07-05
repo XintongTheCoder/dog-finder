@@ -19,17 +19,14 @@ import DogCard from './dogCard';
 import Filters from './filters';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import PetsIcon from '@mui/icons-material/Pets';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import CardMedia from '@mui/material/CardMedia';
-import CardHeader from '@mui/material/CardHeader';
 import { shallowEqual } from 'react-redux';
 import PostDogDialog from './postDogDialog';
+import { updateUserLogin } from '@/lib/redux/slices/userSlice';
+import Typography from '@mui/material/Typography';
 
 interface DogSearchResp {
   resultIds: string[];
@@ -137,78 +134,99 @@ export default function DogBoard(): ReactElement {
 
   useEffect(() => {
     if (!user.isLoggedIn) {
-      router.push('/');
+      const validateAuth = async () => {
+        try {
+          const breedsResp = await client.get<string[]>('/dogs/breeds');
+          if (breedsResp.status === 200) {
+            dispatch(updateUserLogin(true));
+          } else {
+            router.push('/');
+          }
+        } catch (err) {
+          router.push('/');
+        }
+      };
+      validateAuth();
     }
   }, [router, user.isLoggedIn]);
 
-  const handleDialogClose = () => {
+  const handleMatchDialogClose = () => {
     setMatchDialogOpen(false);
   };
 
   return (
     <div className="h-screen flex flex-col space-y-4">
       <Navbar setPostDialogOpen={setPostDialogOpen} />
-      <Filters />
-      <Button
-        variant="outlined"
-        onClick={async () => {
-          const dogMatchResp = await client.post<DogMatchResp>(
-            '/dogs/match',
-            dogBoard.favoriteDogIds
-          );
+      <div className="flex justify-between items-center ml-1 mr-2">
+        <Filters />
+        <Button
+          variant="outlined"
+          disabled={!dogBoard.favoriteDogIds.length}
+          sx={{ fontSize: { xs: 10, md: 16 } }}
+          onClick={async () => {
+            const dogMatchResp = await client.post<DogMatchResp>(
+              '/dogs/match',
+              dogBoard.favoriteDogIds
+            );
 
-          if (dogMatchResp.status === 200) {
-            const dogsResp = await client.post('/dogs', [dogMatchResp.data.match]);
-            setMatchedDog(dogsResp.data[0]);
-            setMatchDialogOpen(true);
-          } else {
-            throw new Error('Something went wrong');
-          }
-        }}
-      >
-        Find a match
-      </Button>
+            if (dogMatchResp.status === 200) {
+              const dogsResp = await client.post('/dogs', [dogMatchResp.data.match]);
+              setMatchedDog({ ...dogsResp.data[0], zipCode: dogsResp.data[0].zip_code });
+              setMatchDialogOpen(true);
+            } else {
+              throw new Error('Something went wrong');
+            }
+          }}
+        >
+          Find a match
+        </Button>
+      </div>
       {postDialogOpen && (
         <PostDogDialog postDialogOpen={postDialogOpen} setPostDialogOpen={setPostDialogOpen} />
       )}
       <Dialog
         open={matchDialogOpen}
-        onClose={handleDialogClose}
+        onClose={handleMatchDialogClose}
+        fullWidth
+        maxWidth="xs"
         aria-labelledby="dog-match-dialog-title"
         aria-describedby="dog-match-dialog-description"
       >
-        <DialogTitle id="dog-match-dialog-title">Your match is</DialogTitle>
-        <DialogContent>
-          <Card sx={{ maxWidth: 345 }}>
-            <CardHeader title={matchedDog.name} />
-            <CardMedia component="img" height="194" image={matchedDog.img} alt="dog image" />
-            <CardContent>
-              <ListItem key="breed" component="div">
-                <ListItemText primary={`breed: ${matchedDog.breed}`} />
-              </ListItem>
-              <ListItem key="age" component="div">
-                <ListItemText primary={`age: ${matchedDog.age}`} />
-              </ListItem>
-              <ListItem key="zip" component="div">
-                <ListItemText primary={`zip code: ${matchedDog.zipCode}`} />
-              </ListItem>
-            </CardContent>
-          </Card>
+        <DialogTitle id="dog-match-dialog-title" className="flex items-center">
+          <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} fontSize="medium" />
+          <Typography
+            variant="h4"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              fontFamily: 'monospace',
+              fontWeight: 600,
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Your match is
+          </Typography>
+        </DialogTitle>
+        <DialogContent sx={{ mx: 8 }}>
+          <DogCard dog={{ ...matchedDog, favorite: true }} isDialog={true} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose}>Repick</Button>
-          <Button onClick={handleDialogClose} autoFocus>
+          <Button onClick={handleMatchDialogClose}>Repick</Button>
+          <Button onClick={() => alert('API is WIP, stay tuned...')} autoFocus>
             Take him/her home
           </Button>
         </DialogActions>
       </Dialog>
-      <div className="basis-0 grow shrink overflow-auto p-2">
+      <div className="basis-0 grow shrink overflow-auto p-3">
         {dogBoard.isLoading ? (
           <CircularProgress data-testid="spinner" />
         ) : (
-          <div className="grid gap-12 grid-cols-fluid">
+          <div className="grid gap-8 grid-cols-fluid">
             {dogs.length ? (
-              dogs.map((dog): ReactElement => <DogCard key={dog.id} dog={dog} />)
+              dogs.map((dog): ReactElement => <DogCard key={dog.id} dog={dog} isDialog={false} />)
             ) : (
               <div>No dogs found</div>
             )}
@@ -220,6 +238,7 @@ export default function DogBoard(): ReactElement {
         color="primary"
         showFirstButton
         showLastButton
+        sx={{ p: 2 }}
         page={dogBoard.from / dogBoard.pageSize + 1}
         onChange={(event: ChangeEvent<unknown>, page: number) => {
           dispatch(updateFrom((page - 1) * dogBoard.pageSize));

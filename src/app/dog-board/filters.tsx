@@ -51,11 +51,11 @@ export default function Filters() {
     <div className="flex flex-row">
       <Box
         component="form"
-        sx={{ '& > :not(style)': { m: 1, minWidth: '10ch' } }}
+        sx={{ '& > :not(style)': { m: 1, minWidth: '10ch' }, flexShrink: 1 }}
         noValidate
         autoComplete="off"
       >
-        <FormControl sx={{ m: 1, width: 250 }}>
+        <FormControl sx={{ m: 1, width: { xs: 180, md: 300 } }}>
           <InputLabel id="breeds-filter-label">Breeds</InputLabel>
           <Select
             labelId="breeds-filter-label"
