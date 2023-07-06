@@ -29,6 +29,7 @@ export default function DogCard({ dog, isDialog }: Props): ReactElement {
             <IconButton
               aria-label="add to favorites"
               color={dog.favorite ? 'primary' : 'default'}
+              data-testid={`fav-btn-${dog.id}`}
               onClick={() => {
                 dispatch(toggleFavoriteDog(dog.id));
               }}

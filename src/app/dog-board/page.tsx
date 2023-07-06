@@ -163,6 +163,7 @@ export default function DogBoard(): ReactElement {
           variant="outlined"
           disabled={!dogBoard.favoriteDogIds.length}
           sx={{ fontSize: { xs: 10, md: 16 } }}
+          data-testid="match-btn"
           onClick={async () => {
             const dogMatchResp = await client.post<DogMatchResp>(
               '/dogs/match',

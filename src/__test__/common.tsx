@@ -42,7 +42,7 @@ export function setup() {
   });
 
   mockClient.post.mockImplementation((url) => {
-    if (url === 'auth/login') {
+    if (url === '/auth/login') {
       return Promise.resolve({
         status: 200,
       });
@@ -51,6 +51,9 @@ export function setup() {
       return Promise.resolve({
         data: mockDogs,
       });
+    }
+    if (url === '/dogs/match') {
+      return Promise.resolve({ status: 200, data: { match: mockDogIds.resultIds[1] } });
     }
     return Promise.reject(new Error('Mock axios POST failed: invalid url'));
   });
