@@ -51,7 +51,7 @@ export default function Filters() {
     <div className="flex flex-row">
       <Box
         component="form"
-        sx={{ '& > :not(style)': { m: 1, minWidth: '10ch' }, flexShrink: 1 }}
+        sx={{ '& > :not(style)': { m: 1, minWidth: '10ch' } }}
         noValidate
         autoComplete="off"
       >

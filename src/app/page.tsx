@@ -12,7 +12,7 @@ export default function Home() {
         <Image src="/landing-img.png" fill priority alt="landing-image" className="object-cover" />
         <div className="absolute top-8 right-8">
           <Typography className="text-right text-2xl font-mono tracking-tighter font-semibold text-slate-100">
-            Saving one dog won't change the world, but it will change the world for that dog.
+            Saving one dog won't change the world, but it will change the world for that dog
           </Typography>
         </div>
       </div>

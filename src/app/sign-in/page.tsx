@@ -40,7 +40,7 @@ export default function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
-      const resp = await client.post('auth/login', {
+      const resp = await client.post('/auth/login', {
         name: data.get('name'),
         email: data.get('email'),
       });
@@ -104,6 +104,7 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             color="secondary"
+            data-testid="sign-in-btn"
             sx={{ mt: 3, mb: 2 }}
           >
             Sign In

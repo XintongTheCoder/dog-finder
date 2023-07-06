@@ -109,4 +109,17 @@ describe('Dog board', () => {
       })
     );
   });
+
+  it('should be able to select favorite dogs and request a match', async () => {
+    const favoriteBtnElements = screen.getAllByTestId(/^fav-btn-.*$/i);
+    fireEvent.click(favoriteBtnElements[1]);
+    fireEvent.click(favoriteBtnElements[2]);
+    fireEvent.click(screen.getByTestId('match-btn'));
+    await waitFor(() =>
+      expect(mocks.mockClient.post).toHaveBeenCalledWith('/dogs/match', [
+        'V3GFTIcBOvEgQ5OCx40W',
+        'WHGFTIcBOvEgQ5OCx40W',
+      ])
+    );
+  });
 });

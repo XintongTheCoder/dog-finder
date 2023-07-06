@@ -33,8 +33,10 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
   });
   const { breeds } = useAppSelector((state) => state.dogBoard);
   const isZipCodeValid = !Number.isNaN(Number(dogForm.zipCode)) && dogForm.zipCode.length === 5;
-  const isFormDataValid = () =>
-    dogForm.name && breeds.includes(dogForm.breed) && dogForm.img && isZipCodeValid;
+  const isFormDataValid = () => {
+    const a = dogForm.name && breeds.includes(dogForm.breed) && dogForm.img && isZipCodeValid;
+    return dogForm.name && breeds.includes(dogForm.breed) && dogForm.img && isZipCodeValid;
+  };
   const handleClose = () => {
     setPostDialogOpen(false);
   };
@@ -61,16 +63,14 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
               textDecoration: 'none',
             }}
           >
-            POST A DOG FOR MY SHELTER
+            POST A DOG FROM MY SHELTER
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <FormControl>
+          <FormControl fullWidth>
             <TextField
-              autoFocus
               margin="dense"
-              id="name"
-              label="Name"
+              label="Dog name"
               type="text"
               fullWidth
               autoComplete="off"
@@ -84,7 +84,6 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
             <TextField
               margin="dense"
               select
-              id="breed"
               label="Breed"
               type="text"
               fullWidth
@@ -95,15 +94,14 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
               }}
               required
             >
-              {breeds.map((breed) => (
-                <MenuItem key={breed} value={breed}>
+              {breeds.map((breed, index) => (
+                <MenuItem key={breed} value={breed} data-testid={`breed-${index}`}>
                   {breed}
                 </MenuItem>
               ))}
             </TextField>
             <TextField
               margin="dense"
-              id="age"
               label="Age"
               type="number"
               inputProps={{ min: 0, max: 100 }}
@@ -118,7 +116,6 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
             />
             <TextField
               margin="dense"
-              id="image"
               label="Image"
               type="url"
               fullWidth
@@ -132,7 +129,6 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
             />
             <TextField
               margin="dense"
-              id="zip-code"
               label="Zip Code"
               type="text"
               fullWidth

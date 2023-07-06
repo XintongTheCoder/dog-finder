@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { Providers } from '@/lib/redux/providers';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import SignIn from '@/app/sign-in/page';
-import { setup, Mocks } from './common';
+import { setup, Mocks, renderWithProviders } from './common';
 
 jest.mock('../app/common/utils');
 jest.mock('next/navigation', () => ({
@@ -13,11 +12,11 @@ let mocks: Mocks;
 describe('Sign in page', () => {
   beforeEach(() => {
     mocks = setup();
-    render(<SignIn />, { wrapper: Providers });
+    renderWithProviders(<SignIn />);
   });
 
   it('should allow user to sign in', async () => {
-    await fireEvent.click(screen.getByRole('button'));
-    expect(mocks.mockPush).toHaveBeenCalledWith('/dog-board');
+    fireEvent.click(screen.getByRole('button', { name: 'Sign In' }));
+    await waitFor(() => expect(mocks.mockPush).toHaveBeenCalledWith('/dog-board'));
   });
 });

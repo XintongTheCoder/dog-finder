@@ -24,8 +24,12 @@ describe('Navbar', () => {
 
   it('should render sign-in correctly', () => {
     expect(screen.getAllByText('Sign in')[0]).toBeInTheDocument();
-    expect(screen.queryByText('Sign up')).not.toBeInTheDocument();
     fireEvent.click(screen.getAllByText('Sign in')[0]);
     expect(mocks.mockPush).toHaveBeenCalledWith('/sign-in');
+  });
+
+  it('should not render post button and sign-out button without user signed in', () => {
+    expect(screen.queryByText('Sign up')).not.toBeInTheDocument();
+    expect(screen.queryByText("I'M A SHELTER OWNER")).not.toBeInTheDocument();
   });
 });
