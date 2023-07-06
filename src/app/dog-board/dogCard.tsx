@@ -21,7 +21,7 @@ export default function DogCard({ dog, isDialog }: Props): ReactElement {
   const dispatch = useAppDispatch();
 
   return (
-    <Card sx={{ maxWidth: 280, maxHeight: 450, mx: { xs: 12, sm: 0, md: 0 } }}>
+    <Card sx={{ maxWidth: 300, maxHeight: 480, mx: { xs: 12, sm: 0, md: 0 } }}>
       <CardHeader
         title={dog.name}
         action={
