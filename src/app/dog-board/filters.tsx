@@ -93,7 +93,6 @@ export default function Filters() {
           helperText={hasInvalidZipCode ? 'Invalid zip code' : ''}
         />
         <TextField
-          id="age-min-filter"
           label="Age Min"
           type="number"
           inputProps={{ min: 0, max: 100 }}
@@ -103,7 +102,6 @@ export default function Filters() {
           }}
         />
         <TextField
-          id="age-max-filter"
           label="Age Max"
           type="number"
           inputProps={{ min: 0, max: 100 }}
@@ -117,7 +115,6 @@ export default function Filters() {
           <Select
             labelId="sort-by-label"
             data-testid="sort-by"
-            label="Sort By"
             value={dogBoard.sortBy}
             onChange={(event: SelectChangeEvent<SortBy>) => {
               const {
