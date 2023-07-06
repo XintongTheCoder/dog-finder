@@ -1,6 +1,7 @@
 ## Description
 
-Dog Finder is a website to help dog lovers search through a database of shelter dogs and find their new furry family members!
+:dog2:Dog Finder is a website ([Dog Finder](https://dog-finder.xintongthecoder.com/)) to help dog lovers search through a database of shelter dogs and find their new furry family members!
+
 
 ## Technologies
 
@@ -23,17 +24,25 @@ Dog Finder is a website to help dog lovers search through a database of shelter 
   - sort results by breed ascending/descending and age ascending/descending.
   - select different pages of results.
   - select their favorite dogs and get a matched dog.
-  - Sign out and leave the dog board.
+  - share dogs on social media.
+  - sign out and leave the dog board.
 - Shelter owners are able to post dogs.
 
-## Highlights:rocket:
+## Highlights
 
-- :rocket:Next.js with Typescript
-- :rocket:Redux for state management
-- :rocket:Responsive UI
-- :rocket:Reusable components
-- :rocket:Unit tests with 81% test coverage
-- :rocket:User-friendly error page
+:rocket:Next.js with Typescript
+
+:rocket:Redux for state management
+
+:rocket:Responsive UI
+  
+:rocket:Reusable components
+  
+:rocket:User-friendly error page
+ 
+:rocket:Unit tests with 90% test coverage
+
+<a href="https://ibb.co/bvMzsKp"><img src="https://i.ibb.co/X5rS7Cm/Screen-Shot-2023-07-05-at-18-43-57.png" alt="Screen-Shot-2023-07-05-at-18-43-57" width="500" border="0"></a>
 
 ## Getting Started
 
@@ -53,9 +62,3 @@ npx jest --coverage
 ## Contributor
 
 Xintong Mi
-
-## Deployment
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
