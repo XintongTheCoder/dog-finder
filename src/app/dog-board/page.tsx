@@ -227,7 +227,7 @@ export default function DogBoard(): ReactElement {
             <CircularProgress data-testid="spinner" size={80} />
           </div>
         ) : (
-          <div className="grid gap-8 grid-cols-fluid">
+          <div className="grid gap-12 grid-cols-fluid">
             {dogs.length ? (
               dogs.map((dog): ReactElement => <DogCard key={dog.id} dog={dog} isDialog={false} />)
             ) : (
