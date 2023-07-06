@@ -2,6 +2,8 @@
 
 :dog2:Dog Finder is a website ([Dog Finder](https://dog-finder.xintongthecoder.com/)) to help dog lovers search through a database of shelter dogs and find their new furry family members!
 
+## Demo
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/6RwZhbP/ezgif-com-optimize-1.gif" alt="ezgif-com-optimize-1" border="0"></a>
 
 ## Technologies
 
