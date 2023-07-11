@@ -93,7 +93,7 @@ export default function SignIn() {
             label="Email Address"
             name="email"
             defaultValue="user@email.com"
-            helperText="The use name and email are auto-populated for demo purposes only."
+            helperText="The user name and email are auto-populated for demo purposes only."
             autoComplete="email"
             autoFocus
           />
