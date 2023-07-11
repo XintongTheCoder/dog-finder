@@ -82,6 +82,7 @@ export default function SignIn() {
             data-testid="name"
             label="name"
             type="text"
+            defaultValue="user"
             autoComplete="name"
           />
           <TextField
@@ -91,6 +92,8 @@ export default function SignIn() {
             id="email"
             label="Email Address"
             name="email"
+            defaultValue="user@email.com"
+            helperText="The use name and email are auto-populated for demo purposes only."
             autoComplete="email"
             autoFocus
           />
