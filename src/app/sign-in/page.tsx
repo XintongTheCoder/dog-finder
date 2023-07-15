@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -33,16 +33,31 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
+interface UserForm {
+  name: string;
+  email: string;
+}
+
 export default function SignIn() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [userForm, setUserForm] = useState<UserForm>({
+    name: 'user',
+    email: 'user@gmail.com',
+  });
+  const isEmailValid =
+    userForm.email && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(userForm.email);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUserForm((prevState) => ({ ...prevState, [name]: value }));
+  };
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     try {
       const resp = await client.post('/auth/login', {
-        name: data.get('name'),
-        email: data.get('email'),
+        name: userForm.name,
+        email: userForm.email,
       });
       if (resp.status === 200) {
         dispatch(updateUserLogin(true));
@@ -82,7 +97,8 @@ export default function SignIn() {
             data-testid="name"
             label="name"
             type="text"
-            defaultValue="user"
+            value={userForm.name}
+            onChange={handleChange}
             autoComplete="name"
           />
           <TextField
@@ -92,8 +108,15 @@ export default function SignIn() {
             id="email"
             label="Email Address"
             name="email"
-            defaultValue="user@email.com"
-            helperText="The user name and email are auto-populated for demo purposes only."
+            type="email"
+            value={userForm.email}
+            onChange={handleChange}
+            helperText={
+              isEmailValid
+                ? 'The user name and email are auto-populated for demo purposes only.'
+                : 'Invalid email address.'
+            }
+            error={!isEmailValid}
             autoComplete="email"
             autoFocus
           />
@@ -109,6 +132,7 @@ export default function SignIn() {
             color="secondary"
             data-testid="sign-in-btn"
             sx={{ mt: 3, mb: 2 }}
+            disabled={!isEmailValid}
           >
             Sign In
           </Button>
