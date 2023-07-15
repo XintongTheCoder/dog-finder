@@ -81,6 +81,7 @@ export default function Filters() {
           </Select>
         </FormControl>
         <TextField
+          id="zip-codes"
           data-testid="zip-codes-filter"
           label="Zip Codes"
           variant="outlined"
@@ -93,6 +94,7 @@ export default function Filters() {
           helperText={hasInvalidZipCode ? 'Invalid zip code' : ''}
         />
         <TextField
+          id="age-min"
           label="Age Min"
           type="number"
           inputProps={{ min: 0, max: 100 }}
@@ -102,6 +104,7 @@ export default function Filters() {
           }}
         />
         <TextField
+          id="age-max"
           label="Age Max"
           type="number"
           inputProps={{ min: 0, max: 100 }}

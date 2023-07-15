@@ -15,6 +15,11 @@ describe('Sign in page', () => {
     renderWithProviders(<SignIn />);
   });
 
+  it('should not allow invalid email to sign in', async () => {
+    fireEvent.change(screen.getByLabelText('Email Address *'), { target: { value: 'user@gmail' } });
+    expect(screen.getByRole('button', { name: 'Sign In' })).toBeDisabled();
+  });
+
   it('should allow user to sign in', async () => {
     fireEvent.click(screen.getByRole('button', { name: 'Sign In' }));
     await waitFor(() => expect(mocks.mockPush).toHaveBeenCalledWith('/dog-board'));

@@ -95,7 +95,7 @@ export default function SignIn() {
             name="name"
             id="name"
             data-testid="name"
-            label="name"
+            label="Name"
             type="text"
             value={userForm.name}
             onChange={handleChange}
