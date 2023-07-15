@@ -69,6 +69,7 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
         <DialogContent>
           <FormControl fullWidth>
             <TextField
+              id="dog-name"
               margin="dense"
               label="Dog name"
               type="text"
@@ -82,6 +83,7 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
               required
             />
             <TextField
+              id="breed"
               margin="dense"
               select
               label="Breed"
@@ -101,6 +103,7 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
               ))}
             </TextField>
             <TextField
+              id="age"
               margin="dense"
               label="Age"
               type="number"
@@ -115,6 +118,7 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
               required
             />
             <TextField
+              id="image"
               margin="dense"
               label="Image"
               type="url"
@@ -128,6 +132,7 @@ export default function PostDogDialog({ postDialogOpen, setPostDialogOpen }: Pro
               required
             />
             <TextField
+              id="zip-code"
               margin="dense"
               label="Zip Code"
               type="text"

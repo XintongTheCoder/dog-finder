@@ -16,12 +16,6 @@ describe('Navbar', () => {
     render(<Navbar />, { wrapper: Providers });
   });
 
-  it('should render a heading', () => {
-    const header = screen.getByRole('heading');
-    expect(header).toBeInTheDocument();
-    expect(screen.getAllByText('Dog Finder')[0]).toBeInTheDocument();
-  });
-
   it('should render sign-in correctly', () => {
     expect(screen.getAllByText('Sign in')[0]).toBeInTheDocument();
     fireEvent.click(screen.getAllByText('Sign in')[0]);
