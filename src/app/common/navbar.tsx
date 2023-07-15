@@ -42,7 +42,7 @@ export default function Navbar({ setPostDialogOpen }: Props): ReactElement {
   };
 
   return (
-    <AppBar position="static" role="heading" color="primary">
+    <AppBar position="static" color="primary">
       <Container maxWidth={false}>
         <Toolbar disableGutters>
           <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} fontSize="large" />
