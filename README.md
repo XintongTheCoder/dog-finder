@@ -41,10 +41,14 @@
 :rocket:Reusable components
   
 :rocket:User-friendly error page
+
+:rocket:Optimized performance
+
+<a href="https://ibb.co/yqFXvqV"><img src="https://i.ibb.co/HqTVwqX/Screen-Shot-2023-07-15-at-18-01-20.png" alt="Screen-Shot-2023-07-15-at-18-01-20" width="600" border="0"></a>
  
 :rocket:Unit tests with 90% test coverage
 
-<a href="https://ibb.co/bvMzsKp"><img src="https://i.ibb.co/X5rS7Cm/Screen-Shot-2023-07-05-at-18-43-57.png" alt="Screen-Shot-2023-07-05-at-18-43-57" width="500" border="0"></a>
+<a href="https://ibb.co/bvMzsKp"><img src="https://i.ibb.co/X5rS7Cm/Screen-Shot-2023-07-05-at-18-43-57.png" alt="Screen-Shot-2023-07-05-at-18-43-57" width="600" border="0"></a>
 
 ## Getting Started
 
