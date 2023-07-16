@@ -58,6 +58,7 @@ export default function Filters() {
         <FormControl sx={{ m: 1, width: { xs: 180, md: 300 } }}>
           <InputLabel id="breeds-filter-label">Breeds</InputLabel>
           <Select
+            id="breeds-filter"
             labelId="breeds-filter-label"
             data-testid="breeds-filter"
             multiple
@@ -116,6 +117,7 @@ export default function Filters() {
         <FormControl sx={{ m: 1, minWidth: 120 }}>
           <InputLabel id="sort-by-label">Sort By</InputLabel>
           <Select
+            id="sort-by"
             labelId="sort-by-label"
             data-testid="sort-by"
             value={dogBoard.sortBy}
